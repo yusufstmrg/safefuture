@@ -35,3 +35,4 @@
     }
   }catch(e){console.warn('Safe Future final platform fix loader:',e)}
 })();
+/* release sync marker: 2026-08-27 */
