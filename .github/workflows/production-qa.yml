@@ -1,0 +1,81 @@
+name: Safe Future Production QA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  static-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: JavaScript syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          count=0
+          while IFS= read -r -d '' file; do
+            node --check "$file"
+            count=$((count+1))
+          done < <(find . -type f -name '*.js' -not -path './.git/*' -print0)
+          echo "Checked $count JavaScript files."
+
+      - name: Local asset references
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, sys
+          root = Path('.')
+          html = root / 'index.html'
+          text = html.read_text(encoding='utf-8', errors='ignore')
+          refs = re.findall(r'''(?:src|href)=[\"']([^\"']+)[\"']''', text, re.I)
+          external = ('http://','https://','data:','mailto:','tel:','#','javascript:')
+          missing=[]
+          for ref in refs:
+              if ref.startswith(external):
+                  continue
+              clean=ref.split('?',1)[0].split('#',1)[0]
+              if not clean or clean.startswith('/'):
+                  continue
+              p=(root/clean.lstrip('./')).resolve()
+              if not p.exists():
+                  missing.append(ref)
+          if missing:
+              print('Missing local references:')
+              print('\n'.join(sorted(set(missing))))
+              sys.exit(1)
+          print(f'Checked {len(refs)} HTML asset references.')
+          PY
+
+      - name: Production-domain hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -Rni --exclude-dir=.git --exclude='*.map' 'safefuture.geminilaunch.com' .; then
+            echo 'Legacy production domain reference found.'
+            exit 1
+          fi
+          echo 'Legacy GeminiLaunch production-domain references: 0'
+
+      - name: Verify critical modules exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f js/phase3-workspace.js
+          test -f js/phase4-business-platform.js
+          test -f js/phase5-crm.js
+          test -f js/wpr-persistence-hardening.js
+          test -f js/production-hardening.js
+          echo 'Critical production modules present.'
