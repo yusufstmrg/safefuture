@@ -15,6 +15,12 @@
   async function loadOwnerData(){
     const u=await user(); if(!u||!c()) return null;
     const client=c();
+    const historyRpc=await client.rpc('get_my_assessment_history');
+    if(!historyRpc.error && historyRpc.data){
+      state={fhc:Array.isArray(historyRpc.data.fhc)?historyRpc.data.fhc:[],wpr:Array.isArray(historyRpc.data.wpr)?historyRpc.data.wpr:[],reports:Array.isArray(historyRpc.data.reports)?historyRpc.data.reports:[],loadedAt:new Date()};
+      return state;
+    }
+    if(historyRpc.error) console.warn('Production hardening history RPC:',historyRpc.error);
     const [fhc,wpr,reports]=await Promise.all([
       client.from('fhc_submissions').select('id,status,version,submitted_at,created_at,fhc_scores(overall_score,cashflow_score,debt_score,emergency_score,protection_score,retirement_score,asset_score,goals_score,priority_1,priority_2,priority_3,calculated_at)').eq('user_id',u.id).order('created_at',{ascending:false}).limit(20),
       client.from('wpr_submissions').select('id,fhc_id,status,version,submitted_at,completed_at,created_at,wpr_results(id,overall_score,net_worth,protection_gap,critical_illness_gap,retirement_gap,protection_need,liquidity_score,protection_score,retirement_score,wealth_score,priority_1,priority_2,priority_3,analysis_json,recommendations_json)').eq('user_id',u.id).order('created_at',{ascending:false}).limit(20),
