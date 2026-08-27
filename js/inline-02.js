@@ -23,3 +23,15 @@
             }  
         }  
     
+/* Load the production history/report runtime fix after the base config is ready. */
+(function(){
+  try{
+    if(!window.__sfFinalPlatformFixRequested){
+      window.__sfFinalPlatformFixRequested=true;
+      var s=document.createElement('script');
+      s.src='./js/final-platform-fixes.js?v=20260827-2000';
+      s.async=false;
+      document.head.appendChild(s);
+    }
+  }catch(e){console.warn('Safe Future final platform fix loader:',e)}
+})();
