@@ -155,36 +155,23 @@
     $('sfP3ProfileForm')?.addEventListener('submit',saveProfile);
   }
 
-  async function fetchFhcHistory(c,u,summaryData){
-    /* Prefer the summary RPC, but always fall back to the source tables.
-       This fixes accounts whose RPC returns latest_fhc but an empty history array. */
-    let rows=Array.isArray(summaryData?.fhc_history) ? summaryData.fhc_history : [];
-
-    try {
-      const sub=await c.from('fhc_submissions')
-        .select('id,status,submitted_at,created_at,fhc_scores(*)')
-        .eq('user_id',u.id)
-        .order('created_at',{ascending:false})
-        .limit(20);
-
-      if(!sub.error && Array.isArray(sub.data) && sub.data.length){
-        rows=sub.data.map(s=>{
-          const scores=Array.isArray(s.fhc_scores) ? s.fhc_scores : [];
-          const score=scores.slice().sort((a,b)=>new Date(b.calculated_at||0)-new Date(a.calculated_at||0))[0] || {};
-          return {...s,...score};
-        });
-      } else if(!rows.length && sub.error) {
-        console.warn('FHC history query:',sub.error);
+  async function fetchAssessmentHistory(c, summaryData){
+    try{
+      const r=await c.rpc('get_my_assessment_history');
+      if(!r.error && r.data){
+        return {
+          fhc:Array.isArray(r.data.fhc)?r.data.fhc:[],
+          wpr:Array.isArray(r.data.wpr)?r.data.wpr:[],
+          reports:Array.isArray(r.data.reports)?r.data.reports:[]
+        };
       }
-    } catch(e) { console.warn('FHC history fallback:',e); }
-
-    /* De-duplicate by submission id/date+score so RPC + direct results cannot double-render. */
-    const seen=new Set();
-    return rows.filter(r=>{
-      const key=String(r.id||'')+'|'+String(r.submitted_at||r.created_at||'')+'|'+String(r.overall_score??'');
-      if(seen.has(key)) return false;
-      seen.add(key); return true;
-    });
+      if(r.error) console.warn('Assessment history RPC:',r.error);
+    }catch(e){ console.warn('Assessment history RPC exception:',e); }
+    return {
+      fhc:Array.isArray(summaryData?.fhc_history)?summaryData.fhc_history:[],
+      wpr:[],
+      reports:[]
+    };
   }
 
   async function load(){
@@ -194,11 +181,9 @@
 
     inject();
 
-    const [summary,wpr,acts,p]=await Promise.all([
+    const [summary,history,acts,p]=await Promise.all([
       c.rpc('get_my_dashboard_summary'),
-      c.from('wpr_submissions')
-        .select('id,status,submitted_at,completed_at,created_at,wpr_results(*)')
-        .eq('user_id',u.id).order('created_at',{ascending:false}).limit(10),
+      c.rpc('get_my_assessment_history'),
       c.from('activity_events')
         .select('event_type,event_name,metadata,created_at')
         .eq('user_id',u.id).order('created_at',{ascending:false}).limit(12),
@@ -208,7 +193,9 @@
     if(summary.error) console.warn('Phase 3 dashboard summary:',summary.error);
 
     const summaryData=summary.data||{};
-    const fhc=await fetchFhcHistory(c,u,summaryData);
+    const historyData=!history.error && history.data ? history.data : await fetchAssessmentHistory(c,summaryData);
+    const fhc=Array.isArray(historyData.fhc)?historyData.fhc:[];
+    const wpr=Array.isArray(historyData.wpr)?historyData.wpr:[];
 
     const profile=p.data||{};
     $('sfP3Name').value=profile.full_name||u.user_metadata?.full_name||u.user_metadata?.name||'';
@@ -220,7 +207,7 @@
     $('sfP3Marital').value=profile.marital_status||'';
 
     renderFhc(fhc);
-    renderWpr(wpr.data||[]);
+    renderWpr(wpr);
     renderActivity(acts.data||[]);
   }
 
@@ -340,7 +327,10 @@
       }
 
       const u=await user();
-      if(u) setTimeout(load,150);
+      if(u){
+        await claimPendingWpr();
+        setTimeout(load,150);
+      }
     } catch(e){ console.warn('Phase 3 init:',e); }
   },500));
 
