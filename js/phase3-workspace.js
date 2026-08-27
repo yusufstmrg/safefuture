@@ -1,4 +1,5 @@
 /* Safe Future Platform — Phase 3: Persistent Personal Workspace
+ * Production history/report sync patch 2026-08-27
  * Hardened persistence/history renderer. Keeps existing FHC/WPR calculations and
  * Supabase/RPC contracts, while making dashboard history resilient to summary-RPC
  * shape changes and authentication timing.
