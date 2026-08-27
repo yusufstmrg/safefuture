@@ -97,14 +97,14 @@
   async function sf4Load(){
     const u=await user();if(!u||!c())return;show('dashboard');try{if(typeof window.sfSyncCrmAfterAuth==='function')await window.sfSyncCrmAfterAuth()}catch(e){console.warn('CRM dashboard sync:',e)}
     const p=await ensureProfile(u);
-    const [summary,wprq,reports,products]=await Promise.all([
+    const [summary,history,goals,products]=await Promise.all([
       c().rpc('get_my_dashboard_summary'),
-      c().from('wpr_submissions').select('id,status,submitted_at,completed_at,created_at,wpr_results(*)').eq('user_id',u.id).order('created_at',{ascending:false}).limit(10),
-      c().from('reports').select('report_type,status,generated_at,storage_path,created_at').eq('user_id',u.id).order('created_at',{ascending:false}).limit(20),
+      c().rpc('get_my_assessment_history'),
+      c().from('financial_goals').select('*').eq('user_id',u.id).order('priority',{ascending:true}).order('target_date',{ascending:true}),
       c().from('sf_products').select('id,product_code,product_name,category,target_customer,premium_start,coverage_period,active').eq('active',true).limit(8)
     ]);
     if(summary.error){console.warn('Safe Future dashboard summary:',summary.error);}
-    const sd=summary.data||{}, f=sd.financial_profile||{}, goalsCount=Number(sd.goals_count||0), fhcs=sd.fhc_history||[], wprs=wprq.data||[];
+    const sd=summary.data||{}, f=sd.financial_profile||{}, historyData=(!history.error&&history.data)||{}, fhcs=Array.isArray(historyData.fhc)?historyData.fhc:(sd.fhc_history||[]), wprs=Array.isArray(historyData.wpr)?historyData.wpr:[], reportRows=Array.isArray(historyData.reports)?historyData.reports:[], goalRows=goals.data||[], goalsCount=goalRows.length;
     let fs=sd.latest_fhc||{};
     if(fs?.overall_score==null){
       try{
@@ -126,11 +126,11 @@
     $('sf4Score').textContent=score==null?'—':Math.round(score); $('sf4ScoreNote').textContent=score==null?'Lengkapi Financial Health Check untuk mendapatkan diagnosis.':score>=70?'Fondasi finansial relatif kuat. Fokus berikutnya adalah optimasi dan perlindungan.':score>=40?'Ada beberapa area yang perlu diperkuat. Lihat Next Best Actions Anda.':'Prioritaskan area risiko utama sebelum menambah komitmen finansial baru.';
     $('sf4Ring').textContent=score==null?'—':Math.round(score); $('sf4Ring').style.setProperty('--score',Math.max(0,Math.min(100,score)));
     $('sf4NetWorth').textContent=money(netWorth);$('sf4CashFlow').textContent=money(cashflow);$('sf4Protection').textContent=protectionGap>0?money(protectionGap):'Tidak terdeteksi';$('sf4GoalsCount').textContent=goalsCount;
-    renderActions(buildActions(d)); renderGoals([]); renderSolutions(u,d,products.data||[]);
+    renderActions(buildActions(d)); renderGoals(goalRows); renderSolutions(u,d,products.data||[]);
     $('sf4FhcHistory').innerHTML=fhcs.length?fhcs.map((r,i)=>`<div class="sf4-history"><div><b>FHC ${i===0?'Terbaru':'Riwayat'}</b><small>${new Date(r.created_at||r.submitted_at).toLocaleString('id-ID')}</small></div><strong>${r.overall_score!=null?Math.round(Number(r.overall_score))+' / 100':'—'}</strong></div>`).join(''):'<div class="sf4-empty">Belum ada FHC tersimpan.</div>';
     $('sf4WprHistory').innerHTML=wprs.length?wprs.map((r,i)=>`<div class="sf4-history"><div><b>WPR ${i===0?'Terbaru':'Riwayat'}</b><small>${new Date(r.completed_at||r.submitted_at||r.created_at).toLocaleString('id-ID')}</small></div><strong>${r.wpr_results?.[0]?.overall_score!=null?Math.round(r.wpr_results[0].overall_score)+' / 100':'—'}</strong></div>`).join(''):'<div class="sf4-empty">Belum ada WPR tersimpan.</div>';
     $('sf4Plan').innerHTML=[['Penghasilan / bulan',f.monthly_income],['Pengeluaran / bulan',f.monthly_expense],['Aset likuid',f.liquid_assets],['Investasi',f.investment_assets],['Aset non-likuid',f.non_liquid_assets],['Total utang',f.total_debt],['Target pensiun / bulan',f.retirement_monthly_target]].map(x=>`<div class="sf4-plan-row"><span>${x[0]}</span><b>${x[1]!=null?money(x[1]):'—'}</b></div>`).join('');
-    $('sf4Reports').innerHTML=reports.data?.length?reports.data.map(r=>`<div class="sf4-history"><div><b>${esc(r.report_type||'Report')}</b><small>${new Date(r.created_at).toLocaleString('id-ID')}</small></div><strong>${esc(r.status||'pending')}</strong></div>`).join(''):'<div class="sf4-empty">Belum ada laporan tersimpan.</div>';
+    $('sf4Reports').innerHTML=reportRows.length?reportRows.map(r=>'<div class="sf4-history"><div><b>'+esc(r.report_type||'Report')+'</b><small>'+new Date(r.created_at||r.generated_at).toLocaleString('id-ID')+'</small></div><strong>'+esc(r.status||'ready')+'</strong></div>').join(''):'<div class="sf4-empty">Belum ada laporan tersimpan.</div>';
     $('sf4FullName').value=p?.full_name||u.user_metadata?.full_name||u.user_metadata?.name||'';$('sf4Phone').value=p?.phone||'';$('sf4City').value=p?.city||'';$('sf4Occupation').value=p?.occupation||'';$('sf4Dob').value=p?.date_of_birth||'';$('sf4Marital').value=p?.marital_status||'';
   }
 
