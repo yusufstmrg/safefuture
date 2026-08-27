@@ -41,9 +41,10 @@ jobs:
           text = html.read_text(encoding='utf-8', errors='ignore')
           refs = re.findall(r'''(?:src|href)=[\"']([^\"']+)[\"']''', text, re.I)
           external = ('http://','https://','data:','mailto:','tel:','#','javascript:')
+          optional = {'./favicon.ico'}
           missing=[]
           for ref in refs:
-              if ref.startswith(external):
+              if ref.startswith(external) or ref in optional:
                   continue
               clean=ref.split('?',1)[0].split('#',1)[0]
               if not clean or clean.startswith('/'):
@@ -73,6 +74,8 @@ jobs:
         run: |
           set -euo pipefail
           test -f index.html
+          test -f manifest.webmanifest
+          test -f js/final-platform-fixes.js
           test -f js/phase3-workspace.js
           test -f js/phase4-business-platform.js
           test -f js/phase5-crm.js
