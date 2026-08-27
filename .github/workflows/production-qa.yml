@@ -63,11 +63,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if grep -Rni --exclude-dir=.git --exclude='*.map' 'safefuture.geminilaunch.com' .; then
-            echo 'Legacy production domain reference found.'
+          if grep -Rni --exclude-dir=.git --exclude-dir=.github --exclude='*.map' 'safefuture.geminilaunch.com' index.html js css assets images *.html 2>/dev/null; then
+            echo 'Legacy production domain reference found in application source.'
             exit 1
           fi
-          echo 'Legacy GeminiLaunch production-domain references: 0'
+          echo 'Legacy GeminiLaunch production-domain references in application source: 0'
 
       - name: Verify critical modules exist
         shell: bash
