@@ -1,0 +1,40 @@
+/* Safe Future — Mobile Layout Hotfix 2026-08-27
+ * Isolated responsive repair. Does not alter assessment/data logic.
+ */
+@media (max-width: 767px){
+  #navbar{padding-top:.65rem!important;padding-bottom:.65rem!important}
+  #navbar .container{min-height:52px!important}
+  #navbar img{max-height:40px;width:auto}
+
+  #home{
+    min-height:auto!important;
+    height:auto!important;
+    align-items:flex-start!important;
+    padding-top:7.25rem!important;
+    padding-bottom:4rem!important;
+  }
+  #home > .container{width:100%!important;max-width:100%!important;padding-left:1.25rem!important;padding-right:1.25rem!important}
+  #home > .container > .grid{display:block!important}
+  #home > .container > .grid > div:first-child{width:100%!important;max-width:100%!important;position:relative;z-index:3}
+  #home .text-gold-shiny.uppercase{font-size:.62rem!important;line-height:1.35!important;letter-spacing:.18em!important;margin-bottom:1rem!important}
+  #home h1{font-size:2.12rem!important;line-height:1.12!important;letter-spacing:-.02em!important;margin-bottom:1.25rem!important;max-width:22rem!important}
+  #home p.text-lg{font-size:.96rem!important;line-height:1.65!important;margin-bottom:1.75rem!important;max-width:31rem!important}
+  #home .flex.flex-col.sm\:flex-row{gap:.75rem!important}
+  #home .flex.flex-col.sm\:flex-row > a{width:100%!important;min-height:56px!important;padding:1rem 1.1rem!important}
+  #home .mt-12.flex{margin-top:1.5rem!important;gap:1rem!important;flex-wrap:wrap!important}
+  #home .mt-12.flex > span{font-size:.68rem!important;line-height:1.4!important}
+
+  .sf-v55-visual{width:210px!important;height:210px!important;right:-48px!important;top:72px!important;opacity:.32!important;z-index:1!important}
+  .sf-v55-visual svg{width:100%!important;height:100%!important}
+  .sf-v55-orb.a{right:-56px!important;top:40px!important;transform:scale(.72)!important}
+  .sf-v55-orb.b{display:none!important}
+
+  .hero-vignette{opacity:.9!important}
+}
+
+@media (min-width:768px){
+  #home{min-height:100vh!important}
+}
+
+/* Prevent accidental horizontal overflow introduced by decorative hero layers. */
+html,body{overflow-x:hidden!important}
