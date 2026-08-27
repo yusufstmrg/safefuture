@@ -110,7 +110,7 @@
 
   async function downloadAssessment(type,id){
     const src=(type==='FHC'?state.fhc:state.wpr).find(x=>String(x.id)===String(id));if(!src)return;
-    const d=reportData(type,src), JsPDF=await ensureJsPdf(),pdf=new JsPDF({unit:'mm',format:'a4'});
+    const d=reportData(type,src); let JsPDF; try{JsPDF=await ensureJsPdf()}catch(e){alert('PDF generator tidak tersedia saat ini. Membuka dialog Cetak agar Anda tetap dapat memilih Simpan sebagai PDF.'); window.print(); return;} const pdf=new JsPDF({unit:'mm',format:'a4'});
     pdf.setFont('helvetica','bold');pdf.setFontSize(18);pdf.text('Safe Future',20,22);
     pdf.setFont('helvetica','normal');pdf.setFontSize(12);pdf.text(d.title,20,31);
     pdf.setFontSize(9);pdf.text('Tanggal: '+fmtDate(d.date),20,38);
