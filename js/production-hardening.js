@@ -143,7 +143,7 @@
   }
 
   async function boot(){
-    try{
+    try{ installStyles();
       const u=await user();if(!u)return;
       await loadOwnerData();
       /* Recover legacy WPR saved in the authenticated browser, if available. */
