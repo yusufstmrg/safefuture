@@ -58,7 +58,7 @@
     const keys=new Set(r.map(x=>String(x.report_type).toUpperCase()+'|'+String(x.source_id)));
     state.fhc.forEach(x=>{const k='FHC|'+x.id;if(!keys.has(k))r.push({id:'virtual-fhc-'+x.id,report_type:'FHC',source_id:x.id,status:'ready',generated_at:x.created_at||x.submitted_at});});
     state.wpr.forEach(x=>{const k='WPR|'+x.id;if(!keys.has(k))r.push({id:'virtual-wpr-'+x.id,report_type:'WPR',source_id:x.id,status:'ready',generated_at:x.completed_at||x.submitted_at||x.created_at});});
-    return r.sort((a,b)=>new Date(b.generated_at||b.created_at||0)-new Date(a.generated_at||a.created_at||0);
+    return r.sort((a,b)=>new Date(b.generated_at||b.created_at||0)-new Date(a.generated_at||a.created_at||0));
   }
 
   function renderReports(){
@@ -82,10 +82,9 @@
     const rows=d.rows.map(x=>'<div><span>'+esc(x[0])+'</span><strong>'+esc(x[1]==null?'—':String(x[1]))+(typeof x[1]==='number'&&/score/i.test(x[0])?' / 100':'')+'</strong></div>').join('');
     const pri=d.priorities.length?'<section><h3>Prioritas</h3><ol>'+d.priorities.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ol></section>':'';
     const obs=d.observation?'<section><h3>Key Observation</h3><p>'+esc(d.observation.replace(/<[^>]*>/g,''))+'</p></section>':'';
-    const m=document.createElement('div');m.className='sf-final-modal';m.innerHTML='<div class="sf-final-backdrop"><article><header><div><small>SAFE FUTURE · PERSONAL REPORT</small><h2>'+esc(d.title)+'</h2></div><button type="button" data-close>×</button></header><main><div class="sf-final-score"><span>Score</span><strong>'+esc(d.score==null?'—':String(Math.round(Number(d.score))))+'</strong><small>/ 100</small></div><p>'+fmtDate(d.date)+'</p><section><h3>Ringkasan</h3><div class="sf-final-grid">'+rows+'</div></section>'+pri+obs+'<p class="sf-final-disclaimer">Hasil ini merupakan estimasi berbasis data yang Anda masukkan dan bukan nasihat keuangan personal.</p></main><footer><button type="button" data-download>Download PDF</button><button type="button" data-close>Tutup</button></footer></article></div>';
+    const m=document.createElement('div');m.className='sf-final-modal';m.innerHTML='<div class="sf-final-backdrop"><article><header><div><small>SAFE FUTURE · PERSONAL REPORT</small><h2>'+esc(d.title)+'</h2></div><button type="button" data-close>×</button></header><main><div class="sf-final-score"><span>Score</span><strong>'+esc(d.score==null?'—':String(Math.round(Number(d.score))))+'</strong><small>/ 100</small></div><p>'+fmtDate(d.date)+'</p><section><h3>Ringkasan</h3><div class="sf-final-grid">'+rows+'</div></section>'+pri+obs+'<p class="sf-final-disclaimer">Hasil ini merupakan estimasi berbasis data yang Anda masukkan dan bukan nasihat keuangan personal.</p></main><footer><button type="button" data-download data-final-type="'+type+'" data-final-id="'+esc(id)+'">Download PDF</button><button type="button" data-close>Tutup</button></footer></article></div>';
     document.body.appendChild(m);
     m.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>m.remove());
-    m.querySelector('[data-download]').onclick=()=>download(type,id);
   }
 
   function loadPdf(){return new Promise((resolve,reject)=>{if(window.jspdf?.jsPDF)return resolve(window.jspdf.jsPDF);const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=()=>window.jspdf?.jsPDF?resolve(window.jspdf.jsPDF):reject(new Error('jsPDF unavailable'));s.onerror=()=>reject(new Error('jsPDF unavailable'));document.head.appendChild(s);});}
@@ -101,6 +100,7 @@
     const v=e.target.closest('[data-sf-final-view]');if(v)open(v.dataset.sfFinalView,v.dataset.id);
     const rv=e.target.closest('[data-sf-final-report-view]');if(rv){const r=reportRows().find(x=>String(x.id)===String(rv.dataset.sfFinalReportView));const src=source(r);if(r&&src)open(String(r.report_type).toUpperCase(),src.id);}
     const rd=e.target.closest('[data-sf-final-report-download]');if(rd){const r=reportRows().find(x=>String(x.id)===String(rd.dataset.sfFinalReportDownload));const src=source(r);if(r&&src)download(String(r.report_type).toUpperCase(),src.id);}
+    const md=e.target.closest('[data-download]');if(md&&md.dataset.finalType)download(md.dataset.finalType,md.dataset.finalId);
   });
 
   function render(){injectStyles();renderHistory();renderReports()}
