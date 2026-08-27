@@ -1,0 +1,57 @@
+name: Safe Future FHC History Fix
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix-fhc-history:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Patch FHC history renderer
+        shell: bash
+        run: |
+          set -euo pipefail
+          file="js/phase3-workspace.js"
+          test -f "$file"
+          python - <<'PY'
+from pathlib import Path
+p = Path('js/phase3-workspace.js')
+s = p.read_text(encoding='utf-8')
+old = 'renderFhc(fhc.data||[]); renderWpr(wpr.data||[]); renderActivity(acts.data||[]);'
+new = 'renderFhc(fhc); renderWpr(wpr.data||[]); renderActivity(acts.data||[]);'
+if old in s:
+    s = s.replace(old, new, 1)
+    p.write_text(s, encoding='utf-8')
+elif new in s:
+    print('FHC history patch already applied.')
+else:
+    raise SystemExit('Expected FHC history renderer pattern was not found.')
+PY
+
+          node --check "$file"
+          grep -F "renderFhc(fhc); renderWpr" "$file"
+
+      - name: Commit and push only when changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- js/phase3-workspace.js; then
+            echo "No changes required."
+            exit 0
+          fi
+          git add js/phase3-workspace.js
+          git commit -m "Fix FHC diagnosis history rendering"
+          git push origin HEAD:main
