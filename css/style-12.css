@@ -1,0 +1,7 @@
+/* v59: decorative-only refinement; approved v55 layout remains untouched. */
+#partnership{isolation:isolate}
+#partnership .container{position:relative;z-index:2}
+#partnership .sf-v55-section-visual{right:-34px;bottom:-22px;width:180px;height:180px;opacity:.055;z-index:0}
+#partnership .sf-v55-section-visual::before{opacity:.07;filter:saturate(.72) contrast(1.02)}
+#partnership .sf-v55-section-visual svg{opacity:.72}
+@media(max-width:768px){#partnership .sf-v55-section-visual{right:-48px;bottom:-12px;width:145px;height:145px;opacity:.045}}

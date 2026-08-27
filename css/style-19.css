@@ -1,0 +1,91 @@
+#tanyaAiFab { position: fixed; bottom: 102px; right: 24px; z-index: 120; width: 56px; height: 56px; padding: 0; border-radius: 50%;
+            background: linear-gradient(135deg, #0B1120 0%, #1A2340 55%, #2C3A5E 100%); border: 1.5px solid #C9A227; color: #E9C766;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0;
+            box-shadow: 0 0 0 4px rgba(201,162,39,.12), 0 0 26px rgba(201,162,39,.32), 0 12px 32px rgba(11,17,32,.5);
+            cursor: pointer; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+        #tanyaAiFab .sfai-fab-ico { position: relative; width: 30px; height: 30px; flex: 0 0 30px; border-radius: 50%;
+            background: linear-gradient(135deg, #C9A227 0%, #E9C766 100%); color: #0B1120; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 12px rgba(233,199,102,.65), inset 0 1px 2px rgba(255,255,255,.5); }
+        #tanyaAiFab .sfai-fab-ico .sfai-spark { width: 17px; height: 17px; display: block; animation: sfSparkPulse 3.2s ease-in-out infinite; }
+        #tanyaAiFab .sfai-fab-txt { display: none; }
+        #tanyaAiFab .sfai-fab-badge { position: absolute; top: -4px; left: -6px; display: inline-flex; align-items: center; gap: 3px;
+            padding: 3px 7px 3px 5px; border-radius: 9999px; background: linear-gradient(135deg, #C9A227, #E9C766); color: #0B1120;
+            font-family: 'Playfair Display', serif; font-size: 8.5px; font-weight: 800; letter-spacing: .05em; line-height: 1;
+            box-shadow: 0 2px 8px rgba(11,17,32,.45), 0 0 10px rgba(233,199,102,.55); white-space: nowrap; }
+        #tanyaAiFab .sfai-fab-badge .sfai-badge-ico { font-style: normal; font-size: 9px; }
+        #tanyaAiFab .sfai-fab-dot { position: absolute; top: 6px; right: 7px; width: 7px; height: 7px; border-radius: 50%;
+            background: linear-gradient(135deg, #F5D97E, #C9A227); box-shadow: 0 0 6px rgba(233,199,102,.9), 0 0 12px rgba(233,199,102,.55);
+            animation: sfDotPulse 2.4s ease-in-out infinite; }
+        #tanyaAiFab:hover { transform: translateY(-3px) scale(1.04); border-color: #E9C766;
+            box-shadow: 0 0 0 5px rgba(201,162,39,.2), 0 0 40px rgba(233,199,102,.5), 0 18px 48px rgba(11,17,32,.58); }
+        #tanyaAiFab:hover .sfai-fab-ico .sfai-spark { animation-duration: 1.4s; }
+        #tanyaAiFab:hover .sfai-fab-dot { animation-duration: 1s; }
+        #tanyaAiFab.sf-open { box-shadow: 0 0 0 5px rgba(201,162,39,.24), 0 0 46px rgba(233,199,102,.6), 0 14px 44px rgba(11,17,32,.55); }
+        @keyframes sfDotPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.35); opacity: .65; } }
+        #waFloatBtn { width: 56px; height: 56px; bottom: 30px; }
+        #waFloatBtn i { font-size: 29px; }
+        @keyframes sfSparkPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.14); opacity: .82; } }
+        #tanyaAiPanel { position: fixed; bottom: 166px; right: 24px; z-index: 121; width: 500px; max-width: calc(100vw - 32px);
+            height: 720px; max-height: calc(100vh - 210px); background: #FFFFFF; border-radius: 20px; overflow: hidden;
+            display: flex; flex-direction: column; box-shadow: 0 24px 70px rgba(5,7,13,.45); border: 1px solid rgba(201,162,39,.35);
+            transform-origin: bottom right; }
+        #tanyaAiPanel.sf-hidden { display: none; }
+        .sfai-head { background: linear-gradient(135deg, #0B1120 0%, #1E2433 100%); padding: 14px 18px; color: #fff; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+        .sfai-head .sfai-avatar { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #C9A227, #E9C766); display: flex; align-items: center; justify-content: center; color: #0B1120; font-size: 18px; }
+        .sfai-head h4 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 16px; margin: 0; letter-spacing: .02em; }
+        .sfai-head p { font-size: 10.5px; opacity: .75; margin: 2px 0 0; }
+        .sfai-close { margin-left: auto; background: rgba(255,255,255,.12); border: none; color: #E9C766; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+        .sfai-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 16px; background: #F7F4EC; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; scrollbar-color: #C9A227 #EDE7D8; }
+        .sfai-msg { max-width: 85%; padding: 11px 14px; border-radius: 14px; font-size: 13px; line-height: 1.65; }
+        .sfai-msg.bot { align-self: flex-start; background: #FFFFFF; border: 1px solid rgba(11,17,32,.08); color: #1E2433; border-bottom-left-radius: 4px; box-shadow: 0 2px 6px rgba(11,17,32,.05); }
+        .sfai-msg.user { align-self: flex-end; background: #0B1120; color: #F5E3B3; border-bottom-right-radius: 4px; }
+        .sfai-msg .sfai-content > :first-child { margin-top: 0 !important; }
+        .sfai-msg .sfai-content > :last-child { margin-bottom: 0 !important; }
+        .sfai-msg .sfai-content p { margin: 0 0 11px; }
+        .sfai-msg .sfai-content p + p { margin-top: 2px; }
+        .sfai-msg .sfai-content h3 { margin: 15px 0 7px; font-size: 14px; line-height: 1.35; font-weight: 800; color: #0B1120; letter-spacing: -.01em; }
+        .sfai-msg .sfai-content h4 { margin: 13px 0 6px; font-size: 13px; line-height: 1.4; font-weight: 800; color: #172033; }
+        .sfai-msg .sfai-content strong { color: #0B1120; font-weight: 800; }
+        .sfai-msg .sfai-content em { color: #5A6272; }
+        .sfai-msg .sfai-content ul, .sfai-msg .sfai-content ol { margin: 7px 0 12px; padding-left: 21px; }
+        .sfai-msg .sfai-content li { margin: 5px 0; padding-left: 2px; }
+        .sfai-msg .sfai-content ul li::marker { color: #C9A227; }
+        .sfai-msg .sfai-content ol li::marker { color: #8A6D00; font-weight: 700; }
+        .sfai-msg .sfai-content hr { border: 0; border-top: 1px solid #E7E2D7; margin: 14px 0 11px; }
+        .sfai-msg .sfai-content .sfai-disclaimer { margin-top: 12px; padding-top: 10px; border-top: 1px solid #EEEAE2; font-size: 10.5px; line-height: 1.5; color: #8A8F9C; }
+        .sfai-msg .sfai-content code { padding: 1px 5px; border-radius: 5px; background: #F5F2EA; color: #705600; font-size: .92em; }
+        .sfai-msg .sfai-content a { color: #8A6D00; text-decoration: underline; text-underline-offset: 2px; }
+        .sfai-msg .sfai-bold { color: #B98A1E; font-weight: 700; }
+        .sfai-chips { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 6px; padding: 0 14px 10px; background: #F7F4EC; scrollbar-width: none; -webkit-overflow-scrolling: touch; flex-shrink: 0; }
+        .sfai-chips::-webkit-scrollbar { display: none; }
+        .sfai-chip { flex: 0 0 auto; white-space: nowrap; border: 1px solid rgba(201,162,39,.5); background: #fff; color: #8A6D00; font-size: 10.5px; font-weight: 600; padding: 5px 11px; border-radius: 9999px; cursor: pointer; transition: all .2s; }
+        .sfai-chip:hover { background: #0B1120; color: #E9C766; border-color: #0B1120; }
+        .sfai-inputbar { display: flex; gap: 8px; padding: 10px 14px; border-top: 1px solid #EDE7D8; background: #fff; flex-shrink: 0; box-shadow: 0 -6px 16px rgba(11,17,32,.07); position: relative; z-index: 2; }
+        .sfai-inputbar input, .sfai-inputbar textarea { flex: 1; border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px 14px; font-size: 13px; outline: none; transition: border .2s; font-family: inherit; resize: none; line-height: 1.45; min-height: 42px; max-height: 110px; overflow-y: auto; }
+        .sfai-inputbar input:focus, .sfai-inputbar textarea:focus { border-color: #C9A227; }
+        .sfai-inputbar button { background: linear-gradient(135deg, #C9A227, #E9C766); border: none; color: #0B1120; width: 42px; height: 42px; border-radius: 10px; font-size: 15px; cursor: pointer; }
+        .sfai-foot { font-size: 9.5px; color: #8A8F9C; text-align: center; padding: 8px; background: #FDFCFA; border-top: 1px solid #F1EFE9; line-height: 1.4; flex-shrink: 0; }
+        @media (min-width: 768px) {
+            #tanyaAiPanel .sfai-head { padding: 16px 20px; }
+            #tanyaAiPanel .sfai-head h4 { font-size: 17px; }
+            #tanyaAiPanel .sfai-head p { font-size: 11.5px; }
+            #tanyaAiPanel .sfai-avatar { width: 44px; height: 44px; }
+            #tanyaAiPanel .sfai-body { padding: 18px 20px; gap: 14px; }
+            #tanyaAiPanel .sfai-msg { max-width: 82%; padding: 12px 16px; border-radius: 15px; font-size: 14.5px; line-height: 1.65; }
+            #tanyaAiPanel .sfai-chips { gap: 7px; padding: 0 20px 12px; }
+            #tanyaAiPanel .sfai-chip { font-size: 12px; padding: 6px 13px; }
+            #tanyaAiPanel .sfai-inputbar { padding: 12px 16px; gap: 10px; }
+            #tanyaAiPanel .sfai-inputbar input, #tanyaAiPanel .sfai-inputbar textarea { padding: 12px 16px; font-size: 14px; border-radius: 11px; }
+            #tanyaAiPanel .sfai-inputbar button { width: 46px; height: 46px; font-size: 16px; border-radius: 11px; }
+            #tanyaAiPanel .sfai-foot { font-size: 10.5px; padding: 9px; }
+        }
+        @media (min-width: 1024px) {
+            #tanyaAiPanel { width: 640px; max-width: calc(100vw - 48px); height: 640px; max-height: calc(100vh - 190px); }
+            #tanyaAiPanel .sfai-body { padding: 22px 24px; gap: 15px; }
+            #tanyaAiPanel .sfai-msg { max-width: 80%; font-size: 15px; line-height: 1.7; }
+            #tanyaAiPanel .sfai-inputbar { padding: 14px 18px; }
+            #tanyaAiPanel .sfai-inputbar input, #tanyaAiPanel .sfai-inputbar textarea { font-size: 14.5px; }
+        }
+        @media (max-width: 480px) { #tanyaAiFab { bottom: 98px; right: 24px; } #tanyaAiFab .sfai-fab-badge { top: -4px; left: -6px; } #tanyaAiPanel { bottom: 170px; right: 12px; height: auto; max-height: calc(100dvh - 186px); } #tanyaAiPanel .sfai-body { min-height: 0; } }
+
+.sf-share-toast{font-family:Inter,Arial,sans-serif}.sf-share-toast{background:#111827;color:#fff}
