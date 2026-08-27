@@ -83,7 +83,7 @@
     $('sfP3Name').value=profile.full_name||u.user_metadata?.full_name||'';
     $('sfP3Email').value=profile.email||u.email||'';
     $('sfP3Phone').value=profile.phone||''; $('sfP3City').value=profile.city||''; $('sfP3Occupation').value=profile.occupation||''; $('sfP3Dob').value=profile.date_of_birth||''; $('sfP3Marital').value=profile.marital_status||'';
-    renderFhc(fhc.data||[]); renderWpr(wpr.data||[]); renderActivity(acts.data||[]);
+    renderFhc(fhc); renderWpr(wpr.data||[]); renderActivity(acts.data||[]);
   }
 
   function renderFhc(rows){const el=$('sfP3FhcHistory');if(!el)return;if(!rows.length){el.innerHTML='<div class="sf-p3-empty">Belum ada hasil FHC tersimpan di akun ini.</div>';return}el.innerHTML=rows.map((r,i)=>{const s=r.overall_score ?? r.fhc_scores?.[0]?.overall_score;return `<div class="sf-p3-history"><div><strong>FHC ${i===0?'Terbaru':'Riwayat'}</strong><small>${date(r.submitted_at||r.created_at)} · ${esc(r.status||'')}</small></div><b>${s!=null?Math.round(Number(s))+' / 100':'—'}</b></div>`}).join('')}
