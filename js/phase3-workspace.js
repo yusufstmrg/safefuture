@@ -44,7 +44,10 @@
     const recs=Array.isArray(d.recommendations) ? d.recommendations : (Array.isArray(snap.recommendations) ? snap.recommendations : []);
     const priority=modules.slice().sort((a,b)=>Number(a.score||0)-Number(b.score||0)).slice(0,3).map(x=>x.name);
 
+    let fhcId=d.fhc_id||snap.fhc_id||null;
+    if(!fhcId){try{const fr=await client().from('fhc_submissions').select('id').eq('user_id',u.id).order('created_at',{ascending:false}).limit(1).maybeSingle();fhcId=fr.data?.id||null;}catch{}}
     const payload={
+      fhc_id:fhcId,
       nama:d.nama,wa:d.wa,wprScore:d.wprScore,wprStatus:d.wprStatus,
       netWorth:d.netWorth,
       liquidityScore:modules.find(x=>x.name==='Liquid Asset Position')?.score,
@@ -60,7 +63,8 @@
       modules,recommendations:recs,inputs,calculations:calc,snapshot:snap
     };
 
-    const r=await client().rpc('submit_my_wpr',{p_payload:payload});
+    let r=await client().rpc('submit_my_wpr',{p_payload:payload});
+    if(r.error){console.warn('Phase 3 WPR persistence (first attempt):',r.error);try{await new Promise(resolve=>setTimeout(resolve,700));r=await client().rpc('submit_my_wpr',{p_payload:payload});}catch{}}
     if(r.error){ console.warn('Phase 3 WPR persistence:',r.error); return {ok:false,error:r.error}; }
     try { sessionStorage.removeItem('sf_pending_wpr_platform'); } catch {}
     try { if(typeof window.sfSyncCrmAfterAuth==='function') await window.sfSyncCrmAfterAuth(); } catch(e) { console.warn('WPR CRM sync:',e); }
@@ -338,7 +342,7 @@
   /* Load WPR hardening after this module so it can see the same Supabase client. */
   try{
     const h=document.createElement('script');
-    h.src='./js/wpr-persistence-hardening.js';
+    h.src='./js/wpr-persistence-hardening.js?v=20260827-1800';
     h.defer=true;
     document.head.appendChild(h);
   } catch {}
