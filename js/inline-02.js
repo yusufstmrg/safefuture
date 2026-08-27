@@ -35,4 +35,16 @@
     }
   }catch(e){console.warn('Safe Future final platform fix loader:',e)}
 })();
+/* Load isolated mobile layout repair. */
+(function(){
+  try{
+    if(!document.querySelector('link[data-sf-mobile-hotfix]')){
+      var l=document.createElement('link');
+      l.rel='stylesheet';
+      l.href='./css/mobile-layout-hotfix.css?v=20260827-2235';
+      l.setAttribute('data-sf-mobile-hotfix','1');
+      document.head.appendChild(l);
+    }
+  }catch(e){console.warn('Safe Future mobile layout hotfix loader:',e)}
+})();
 /* release sync marker: 2026-08-27 */
