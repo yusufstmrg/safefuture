@@ -47,4 +47,16 @@
     }
   }catch(e){console.warn('Safe Future mobile layout hotfix loader:',e)}
 })();
-/* release sync marker: 2026-08-27 */
+/* Load scroll stability guard after all base configuration hooks. */
+(function(){
+  try{
+    if(!window.__sfScrollGuardRequested){
+      window.__sfScrollGuardRequested=true;
+      var g=document.createElement('script');
+      g.src='./js/scroll-stability-guard.js?v=20260828-0745';
+      g.async=false;
+      document.head.appendChild(g);
+    }
+  }catch(e){console.warn('Safe Future scroll stability guard loader:',e)}
+})();
+/* release sync marker: 2026-08-28 */
