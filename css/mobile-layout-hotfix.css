@@ -1,4 +1,4 @@
-/* Safe Future — Mobile Layout + Visibility Hotfix
+/* Safe Future — Mobile Layout + Visibility Hotfix v2
  * Isolated stability repair. No assessment/data logic changes.
  */
 @media (max-width: 767px){
@@ -10,6 +10,7 @@
     min-height:auto!important;
     height:auto!important;
     align-items:flex-start!important;
+    overflow:visible!important;
     padding-top:7.25rem!important;
     padding-bottom:4rem!important;
   }
@@ -33,16 +34,30 @@
 
 @media (min-width:768px){#home{min-height:100vh!important}}
 
-/* Stability fallback: content must remain visible even if optional reveal scripts fail. */
+/* Stability fallback: no section may remain invisible because an optional reveal animation failed. */
+.fade-in,
+.fade-in.visible,
+section.fade-in,
 section .fade-in,
-section .fade-in.visible,
 .sf-reveal,
 .sf-reveal.sf-visible,
 .sf-v55-reveal,
 .sf-v55-reveal.is-visible{
   opacity:1!important;
+  visibility:visible!important;
   transform:none!important;
   filter:none!important;
 }
 
-html,body{overflow-x:hidden!important}
+/* Never lock the document itself; scrolling must remain available on touch devices. */
+html,body{
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  height:auto!important;
+  min-height:100%!important;
+}
+body{
+  position:relative!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+main{overflow:visible!important}
