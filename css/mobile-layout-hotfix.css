@@ -1,5 +1,5 @@
-/* Safe Future — Mobile Layout Hotfix 2026-08-27
- * Isolated responsive repair. Does not alter assessment/data logic.
+/* Safe Future — Mobile Layout + Visibility Hotfix
+ * Isolated stability repair. No assessment/data logic changes.
  */
 @media (max-width: 767px){
   #navbar{padding-top:.65rem!important;padding-bottom:.65rem!important}
@@ -28,13 +28,21 @@
   .sf-v55-visual svg{width:100%!important;height:100%!important}
   .sf-v55-orb.a{right:-56px!important;top:40px!important;transform:scale(.72)!important}
   .sf-v55-orb.b{display:none!important}
-
   .hero-vignette{opacity:.9!important}
 }
 
-@media (min-width:768px){
-  #home{min-height:100vh!important}
+@media (min-width:768px){#home{min-height:100vh!important}}
+
+/* Stability fallback: content must remain visible even if optional reveal scripts fail. */
+section .fade-in,
+section .fade-in.visible,
+.sf-reveal,
+.sf-reveal.sf-visible,
+.sf-v55-reveal,
+.sf-v55-reveal.is-visible{
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
 }
 
-/* Prevent accidental horizontal overflow introduced by decorative hero layers. */
 html,body{overflow-x:hidden!important}
