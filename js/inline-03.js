@@ -2286,7 +2286,41 @@ function closeProductModal() {
                 };
                 window.__wprData = { nama, wa, tujuan, wprScore, wprStatus: status.label, netWorth, concRisk, liquidMonths, protCoverage, retScore, estateScore, modules, observation: obs, recommendations: wprRecs, inputs: leadData.wprSnapshot.inputs, calculations: leadData.wprSnapshot.calculations };
                 await saveLead(leadData);
-                if (window.sfPhase3PersistWpr) { try { await window.sfPhase3PersistWpr(leadData); } catch (e) { console.warn("Phase 3 WPR persistence skipped:", e); } }
+
+                // P0: WPR is a user-owned assessment and must never disappear after the result screen.
+                // Persist to the authenticated platform with a short readiness/retry window so script
+                // load order, auth hydration, or a transient network race cannot silently lose the result.
+                let wprPersisted = false;
+                let lastWprPersistError = null;
+                const wprPersistStarted = Date.now();
+                while (!wprPersisted && Date.now() - wprPersistStarted < 8000) {
+                    if (typeof window.sfPhase3PersistWpr === 'function') {
+                        try {
+                            const persisted = await window.sfPhase3PersistWpr(leadData);
+                            wprPersisted = persisted?.ok === true || !!persisted?.wpr_id;
+                            if (!wprPersisted && persisted?.error) lastWprPersistError = persisted.error;
+                        } catch (e) {
+                            lastWprPersistError = e?.message || String(e);
+                        }
+                    }
+                    if (!wprPersisted) await new Promise(r => setTimeout(r, 350));
+                }
+
+                if (!wprPersisted) {
+                    // Keep a local recovery envelope. The platform recovery controller can retry it
+                    // after the auth/session becomes ready; the user still keeps the visible result.
+                    try {
+                        sessionStorage.setItem('sf_pending_wpr_platform', JSON.stringify({
+                            saved_at: new Date().toISOString(),
+                            payload: leadData
+                        }));
+                    } catch {}
+                    console.error('WPR platform persistence failed:', lastWprPersistError || 'timeout');
+                    window.__sfLastWprPersistError = lastWprPersistError || 'timeout';
+                } else {
+                    try { sessionStorage.removeItem('sf_pending_wpr_platform'); } catch {}
+                    window.__sfLastWprPersistError = null;
+                }
 
             } catch (e) {
                 console.error("WPR Error:", e);
