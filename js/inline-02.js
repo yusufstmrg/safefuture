@@ -23,52 +23,49 @@
             }  
         }  
     
-/* Load the production history/report runtime fix after the base config is ready. */
+/* Load production runtime controllers only after inline-03 has initialized Supabase. */
 (function(){
-  try{
-    if(!window.__sfFinalPlatformFixRequested){
-      window.__sfFinalPlatformFixRequested=true;
-      var s=document.createElement('script');
-      s.src='./js/final-platform-fixes.js?v=20260830-qa2';
-      s.async=false;
-      document.head.appendChild(s);
-    }
-  }catch(e){console.warn('Safe Future final platform fix loader:',e)}
+  var started=false;
+  function boot(){
+    if(started || !window.supabaseClient)return;
+    started=true;
+    try{
+      if(!window.__sfFinalPlatformFixRequested){
+        window.__sfFinalPlatformFixRequested=true;
+        var s=document.createElement('script');
+        s.src='./js/final-platform-fixes.js?v=20260830-qa3';
+        s.async=false;
+        document.head.appendChild(s);
+      }
+      if(!window.__sfHistoryAuthorityRequested){
+        window.__sfHistoryAuthorityRequested=true;
+        var h=document.createElement('script');
+        h.src='./js/history-authority.js?v=20260830-qa3';
+        h.async=false;
+        document.head.appendChild(h);
+      }
+      if(!document.querySelector('link[data-sf-mobile-hotfix]')){
+        var l=document.createElement('link');
+        l.rel='stylesheet';
+        l.href='./css/mobile-layout-hotfix.css?v=20260830-qa3';
+        l.setAttribute('data-sf-mobile-hotfix','1');
+        document.head.appendChild(l);
+      }
+      if(!window.__sfScrollGuardRequested){
+        window.__sfScrollGuardRequested=true;
+        var g=document.createElement('script');
+        g.src='./js/scroll-stability-guard.js?v=20260830-qa3';
+        g.async=false;
+        document.head.appendChild(g);
+      }
+    }catch(e){console.warn('Safe Future runtime controller loader:',e)}
+  }
+  /* inline-03 runs later in the HTML and creates window.supabaseClient synchronously.
+     Poll briefly because this file is intentionally loaded before inline-03. */
+  var tries=0, timer=setInterval(function(){
+    boot();
+    if(started || ++tries>=80) clearInterval(timer);
+  },100);
+  if(document.readyState!=='loading')boot();
 })();
-/* Load isolated mobile layout repair. */
-(function(){
-  try{
-    if(!document.querySelector('link[data-sf-mobile-hotfix]')){
-      var l=document.createElement('link');
-      l.rel='stylesheet';
-      l.href='./css/mobile-layout-hotfix.css?v=20260830-qa2';
-      l.setAttribute('data-sf-mobile-hotfix','1');
-      document.head.appendChild(l);
-    }
-  }catch(e){console.warn('Safe Future mobile layout hotfix loader:',e)}
-})();
-/* Load scroll stability guard after all base configuration hooks. */
-(function(){
-  try{
-    if(!window.__sfScrollGuardRequested){
-      window.__sfScrollGuardRequested=true;
-      var g=document.createElement('script');
-      g.src='./js/scroll-stability-guard.js?v=20260830-qa2';
-      g.async=false;
-      document.head.appendChild(g);
-    }
-  }catch(e){console.warn('Safe Future scroll stability guard loader:',e)}
-})();
-/* Load the single authoritative history/report renderer last so older modules cannot overwrite populated data. */
-(function(){
-  try{
-    if(!window.__sfHistoryAuthorityRequested){
-      window.__sfHistoryAuthorityRequested=true;
-      var h=document.createElement('script');
-      h.src='./js/history-authority.js?v=20260830-qa2';
-      h.async=false;
-      document.head.appendChild(h);
-    }
-  }catch(e){console.warn('Safe Future history authority loader:',e)}
-})();
-/* release sync marker: 2026-08-30 */
+/* release sync marker: 2026-08-30-qa3 */
