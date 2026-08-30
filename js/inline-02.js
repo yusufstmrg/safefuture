@@ -34,7 +34,7 @@
     if(document.querySelector('link[data-sf-mobile-hotfix]')) return;
     var l=document.createElement('link');
     l.rel='stylesheet';
-    l.href='./css/mobile-layout-hotfix.css?v=20260830-qa4';
+    l.href='./css/mobile-layout-hotfix.css?v=20260830-qa5';
     l.setAttribute('data-sf-mobile-hotfix','1');
     document.head.appendChild(l);
   }
@@ -55,9 +55,9 @@
     if(started || !window.supabaseClient)return;
     started=true;
     try{
-      loadScriptOnce('__sfFinalPlatformFixRequested','./js/final-platform-fixes.js?v=20260830-qa4');
-      loadScriptOnce('__sfHistoryAuthorityRequested','./js/history-authority.js?v=20260830-qa4');
-      loadScriptOnce('__sfScrollGuardRequested','./js/scroll-stability-guard.js?v=20260830-qa4');
+      loadScriptOnce('__sfFinalPlatformFixRequested','./js/final-platform-fixes.js?v=20260830-qa5');
+      loadScriptOnce('__sfHistoryAuthorityRequested','./js/history-authority.js?v=20260830-qa5');
+      loadScriptOnce('__sfScrollGuardRequested','./js/scroll-stability-guard.js?v=20260830-qa5');
     }catch(e){console.warn('Safe Future runtime controller loader:',e)}
   }
 
