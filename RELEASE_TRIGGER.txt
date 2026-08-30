@@ -1,0 +1,2 @@
+Safe Future production deployment trigger — GitHub main is the source of truth.
+This file is intentionally inert and does not affect the application runtime.
