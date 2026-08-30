@@ -29,7 +29,7 @@
     if(!window.__sfFinalPlatformFixRequested){
       window.__sfFinalPlatformFixRequested=true;
       var s=document.createElement('script');
-      s.src='./js/final-platform-fixes.js?v=20260827-2000';
+      s.src='./js/final-platform-fixes.js?v=20260830-qa2';
       s.async=false;
       document.head.appendChild(s);
     }
@@ -41,7 +41,7 @@
     if(!document.querySelector('link[data-sf-mobile-hotfix]')){
       var l=document.createElement('link');
       l.rel='stylesheet';
-      l.href='./css/mobile-layout-hotfix.css?v=20260827-2235';
+      l.href='./css/mobile-layout-hotfix.css?v=20260830-qa2';
       l.setAttribute('data-sf-mobile-hotfix','1');
       document.head.appendChild(l);
     }
@@ -53,10 +53,22 @@
     if(!window.__sfScrollGuardRequested){
       window.__sfScrollGuardRequested=true;
       var g=document.createElement('script');
-      g.src='./js/scroll-stability-guard.js?v=20260828-0745';
+      g.src='./js/scroll-stability-guard.js?v=20260830-qa2';
       g.async=false;
       document.head.appendChild(g);
     }
   }catch(e){console.warn('Safe Future scroll stability guard loader:',e)}
 })();
-/* release sync marker: 2026-08-28 */
+/* Load the single authoritative history/report renderer last so older modules cannot overwrite populated data. */
+(function(){
+  try{
+    if(!window.__sfHistoryAuthorityRequested){
+      window.__sfHistoryAuthorityRequested=true;
+      var h=document.createElement('script');
+      h.src='./js/history-authority.js?v=20260830-qa2';
+      h.async=false;
+      document.head.appendChild(h);
+    }
+  }catch(e){console.warn('Safe Future history authority loader:',e)}
+})();
+/* release sync marker: 2026-08-30 */
