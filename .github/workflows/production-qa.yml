@@ -69,13 +69,46 @@ jobs:
           fi
           echo 'Legacy GeminiLaunch production-domain references in application source: 0'
 
-      - name: Verify critical modules exist
+      - name: Critical runtime wiring
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f js/final-platform-fixes.js
+          test -f js/history-authority.js
+          test -f js/phase3-workspace.js
+          test -f js/phase4-business-platform.js
+          grep -q 'window.supabaseClient' js/inline-02.js
+          grep -q 'setInterval' js/inline-02.js
+          grep -q 'history-authority.js' js/inline-02.js
+          grep -q 'final-platform-fixes.js' js/inline-02.js
+          grep -q 'get_my_assessment_history' js/phase3-workspace.js
+          grep -q 'sfProductionViewAssessment' js/final-platform-fixes.js
+          grep -q 'sfProductionDownloadReport' js/final-platform-fixes.js
+          grep -q 'sfHistoryAuthorityRefresh' js/history-authority.js
+          echo 'Critical history/report/auth wiring present.'
+
+      - name: Script-order guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          text = (Path('index.html')).read_text(encoding='utf-8', errors='ignore')
+          p2=text.find('./js/inline-02.js')
+          p3=text.find('./js/inline-03.js')
+          if p2 < 0 or p3 < 0 or p2 >= p3:
+              raise SystemExit('Expected inline-02.js to load before inline-03.js.')
+          print('inline-02.js -> inline-03.js ordering: PASS')
+          PY
+
+      - name: Critical modules exist
         shell: bash
         run: |
           set -euo pipefail
           test -f index.html
           test -f manifest.webmanifest
           test -f js/final-platform-fixes.js
+          test -f js/history-authority.js
           test -f js/phase3-workspace.js
           test -f js/phase4-business-platform.js
           test -f js/phase5-crm.js
