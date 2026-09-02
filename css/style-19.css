@@ -1,3 +1,6 @@
+@import url('./mobile-layout-hotfix.css?v=20260902-layout');
+@import url('./production-layout-stabilizer.css?v=20260902-layout');
+
 #tanyaAiFab { position: fixed; bottom: 102px; right: 24px; z-index: 120; width: 56px; height: 56px; padding: 0; border-radius: 50%;
             background: linear-gradient(135deg, #0B1120 0%, #1A2340 55%, #2C3A5E 100%); border: 1.5px solid #C9A227; color: #E9C766;
             display: inline-flex; align-items: center; justify-content: center; gap: 0;
