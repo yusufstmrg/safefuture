@@ -1,0 +1,20 @@
+/* Safe Future — Production Layout Stabilizer v1
+ * Final cascade layer for public pages. Its job is containment only:
+ * the document, top-level sections, navbar and footer must occupy the full
+ * available viewport; no legacy module may create a half-width canvas or
+ * horizontal page scroll.
+ */
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0!important;padding:0!important;width:100%!important;max-width:100%!important;min-width:0!important;overflow-x:clip!important}
+body{position:relative!important}
+body>nav,body>main,body>section,body>footer{display:block;position:relative;width:100%!important;max-width:100%!important;min-width:0!important;margin-left:0!important;margin-right:0!important}
+#navbar{width:100%!important;max-width:none!important}
+#home{width:100%!important;max-width:none!important;min-width:0!important}
+#home>.container,body>section>.container,main>.container{width:100%!important;max-width:1240px;min-width:0!important;margin-left:auto!important;margin-right:auto!important}
+img,svg,video,canvas,iframe{max-width:100%;}
+@media(max-width:767px){
+  html,body{width:100%!important;max-width:100%!important;overflow-x:clip!important}
+  body>nav,body>main,body>section,body>footer,#navbar,#home{inline-size:100%!important;max-inline-size:100%!important;min-inline-size:0!important}
+  #home{height:auto!important;min-height:0!important}
+  #home>.container,body>section>.container,main>.container{inline-size:100%!important;max-inline-size:100%!important;padding-left:1rem;padding-right:1rem}
+}
