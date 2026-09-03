@@ -1,0 +1,8 @@
+{
+  "name": "Safe Future",
+  "description": "Safe Future — Financial Protection & Wealth Advisory. Diagnosis sebelum rekomendasi, solusi perlindungan, poster, dan brosur.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
