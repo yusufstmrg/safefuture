@@ -1,8 +1,7 @@
 name: Bootstrap Safe Future source
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -38,7 +37,6 @@ jobs:
           ZIP="${{ steps.find_zip.outputs.zip }}"
           unzip -q -o "$ZIP" -d .
           rm -f "$ZIP"
-          # The ZIP is a source package; audit/release metadata is intentionally not required by Vercel.
           find . -maxdepth 1 -type f -name 'FINAL_*.json' -delete || true
           git status --short
 
