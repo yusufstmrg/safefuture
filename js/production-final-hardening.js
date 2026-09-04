@@ -6,12 +6,13 @@
   'use strict';
   const $=id=>document.getElementById(id);
   const c=()=>window.supabaseClient;
-  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+  const esc=s=>String(s??'').replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#039;'}[m]));
   const fmt=v=>v?new Date(v).toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'}):'—';
   const money=v=>v==null||v===''?'—':'Rp '+Number(v||0).toLocaleString('id-ID');
   let reportTimer=null;
   let observer=null;
   let reportBusy=false;
+  const modalSelector='.sf5-modal,.sf5-enterprise-modal';
 
   function reportSource(type,row,fhc,wpr){
     const t=String(type||row?.report_type||'').toUpperCase();
@@ -90,7 +91,7 @@
     if(typeof window.sfProductionViewAssessment==='function')return window.sfProductionViewAssessment(type,src.id);
     const escv=esc;
     const isFhc=String(type).toUpperCase()==='FHC';
-    const x=isFhc?src:(src.wpr_results?.[0]||src);
+    const x=isFhc?(src.fhc_scores?.[0]||src):(src.wpr_results?.[0]||src);
     const rows=isFhc?[['Cash Flow',x.cashflow_score],['Debt',x.debt_score],['Emergency Fund',x.emergency_score],['Protection',x.protection_score],['Retirement',x.retirement_score],['Assets',x.asset_score],['Goals',x.goals_score]]:[['Net Worth',money(x.net_worth)],['Protection Need',money(x.protection_need)],['Protection Gap',money(x.protection_gap)],['Critical Illness Gap',money(x.critical_illness_gap)],['Retirement Gap',money(x.retirement_gap)],['Liquidity Score',x.liquidity_score],['Protection Score',x.protection_score],['Retirement Score',x.retirement_score],['Wealth Score',x.wealth_score]];
     const m=document.createElement('div');m.className='sf-final-modal';m.innerHTML=`<div class="sf-final-backdrop"><article class="sf-final-dialog"><header><div><small>SAFE FUTURE · PERSONAL REPORT</small><h2>${isFhc?'Financial Health Check™':'Wealth & Protection Review™'}</h2></div><button type="button" data-close>×</button></header><main><div class="sf-final-score"><span>Score</span><strong>${x.overall_score==null?'—':Math.round(Number(x.overall_score))}</strong><small>/ 100</small></div><p>${fmt(src.submitted_at||src.completed_at||src.created_at)}</p><h3>Ringkasan</h3><div class="sf-final-grid">${rows.map(([k,v])=>`<div><span>${escv(k)}</span><strong>${escv(v==null?'—':String(v))}</strong></div>`).join('')}</div></main><footer><button type="button" data-close>Tutup</button></footer></article></div>`;document.body.appendChild(m);m.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>m.remove()));
   }
@@ -104,7 +105,7 @@
       if(!JsPDF){JsPDF=await new Promise((resolve,reject)=>{const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';sc.onload=()=>resolve(window.jspdf?.jsPDF);sc.onerror=reject;document.head.appendChild(sc);});}
       if(!JsPDF)throw new Error('jsPDF unavailable');
       const isFhc=String(type).toUpperCase()==='FHC';
-      const x=isFhc?src:(src.wpr_results?.[0]||src);
+      const x=isFhc?(src.fhc_scores?.[0]||src):(src.wpr_results?.[0]||src);
       const rows=isFhc?[['Cash Flow',x.cashflow_score],['Debt',x.debt_score],['Emergency Fund',x.emergency_score],['Protection',x.protection_score],['Retirement',x.retirement_score],['Assets',x.asset_score],['Goals',x.goals_score]]:[['Net Worth',money(x.net_worth)],['Protection Need',money(x.protection_need)],['Protection Gap',money(x.protection_gap)],['Critical Illness Gap',money(x.critical_illness_gap)],['Retirement Gap',money(x.retirement_gap)],['Liquidity Score',x.liquidity_score],['Protection Score',x.protection_score],['Retirement Score',x.retirement_score],['Wealth Score',x.wealth_score]];
       const pdf=new JsPDF({unit:'mm',format:'a4'});pdf.setFont('helvetica','bold');pdf.setFontSize(18);pdf.text('Safe Future',20,22);pdf.setFont('helvetica','normal');pdf.setFontSize(12);pdf.text(isFhc?'Financial Health Check':'Wealth & Protection Review',20,31);pdf.setFontSize(9);pdf.text('Tanggal: '+fmt(src.submitted_at||src.completed_at||src.created_at),20,38);pdf.setFont('helvetica','bold');pdf.setFontSize(28);pdf.text((x.overall_score==null?'—':Math.round(Number(x.overall_score)))+' / 100',20,53);let y=66;pdf.setFontSize(10);rows.forEach(([k,v])=>{if(y>270){pdf.addPage();y=22}pdf.setFont('helvetica','normal');pdf.text(String(k),20,y);pdf.setFont('helvetica','bold');pdf.text(String(v==null?'—':v),150,y);y+=7});pdf.setFontSize(7);pdf.text('Estimasi berbasis data pengguna. Bukan nasihat keuangan personal.',20,287);pdf.save('Safe-Future-'+(isFhc?'FHC':'WPR')+'-'+new Date().toISOString().slice(0,10)+'.pdf');
     }catch(e){console.warn('Safe Future fallback PDF:',e);window.print();}
@@ -113,7 +114,7 @@
   function hardenModalLifecycle(){
     if(observer)return;
     const lock=()=>{
-      const active=document.querySelectorAll('.sf5-modal').length>0;
+      const active=document.querySelector(modalSelector);
       if(active){
         if(!document.body.dataset.sf5ScrollLock){document.body.dataset.sf5ScrollPrev=document.body.style.overflow||'';document.body.dataset.sf5ScrollLock='1';}
         document.body.style.overflow='hidden';
@@ -121,14 +122,15 @@
         document.body.style.overflow=document.body.dataset.sf5ScrollPrev||'';delete document.body.dataset.sf5ScrollPrev;delete document.body.dataset.sf5ScrollLock;
       }
     };
+    const closeModal=el=>{const modal=el?.closest(modalSelector);if(modal){modal.remove();lock();return true;}return false;};
     observer=new MutationObserver(()=>{lock();decorateCustomerModal();});
     observer.observe(document.body,{childList:true,subtree:true});
-    document.addEventListener('keydown',e=>{if(e.key==='Escape'){const modals=[...document.querySelectorAll('.sf5-modal')];const top=modals[modals.length-1];if(top)top.remove();}},true);
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'){const modals=[...document.querySelectorAll(modalSelector)];const top=modals[modals.length-1];if(top){top.remove();lock();}}},true);
     document.addEventListener('click',e=>{
-      const backdrop=e.target.closest('.sf5-modal');
-      if(backdrop && e.target===backdrop)backdrop.remove();
+      const backdrop=e.target.closest(modalSelector);
+      if(backdrop && e.target===backdrop){backdrop.remove();lock();return;}
       const close=e.target.closest('[data-sf5-close],[data-modal-close]');
-      if(close)close.closest('.sf5-modal')?.remove();
+      if(close)closeModal(close);
     },true);
     lock();
   }
