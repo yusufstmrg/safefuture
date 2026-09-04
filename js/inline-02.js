@@ -56,6 +56,7 @@ tailwind.config = {
     loadScriptOnce('__sfFinalPlatformFixRequested','./js/final-platform-fixes.js');
     loadScriptOnce('__sfHistoryAuthorityRequested','./js/history-authority.js');
     loadScriptOnce('__sfScrollGuardRequested','./js/scroll-stability-guard.js');
+    loadScriptOnce('__sfProductionFinalHardeningRequested','./js/production-final-hardening.js');
   }
   var tries=0;
   var timer=setInterval(function(){
