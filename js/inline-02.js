@@ -63,3 +63,37 @@ tailwind.config = {
     if(started || ++tries>=80) clearInterval(timer);
   },100);
 })();
+
+/* Cloudflare-safe auth recovery: inline-12.js defines the UI handler later.
+   Patch it after definition so password-recovery links always return to the
+   host the visitor is currently using (Cloudflare Worker, custom domain, etc.). */
+(function(){
+  'use strict';
+  var tries=0;
+  var timer=setInterval(function(){
+    if(typeof window.sfForgotPassword==='function' && !window.__sfAuthRedirectPatched){
+      window.__sfAuthRedirectPatched=true;
+      var msg=function(text,ok){
+        var el=document.getElementById('sfAuthMsg');
+        if(!el)return;
+        el.textContent=text;
+        el.classList.remove('hidden');
+        el.style.background=ok?'#ecfdf3':'#fff7e6';
+        el.style.color=ok?'#166534':'#8a5a00';
+      };
+      window.sfForgotPassword=async function(){
+        var c=window.supabaseClient;
+        var email=(document.getElementById('sfLoginEmail')?.value||'').trim();
+        if(!c?.auth)return msg('Koneksi akun belum siap. Silakan muat ulang halaman.',false);
+        if(!email)return msg('Masukkan email Anda terlebih dahulu.',false);
+        var redirectTo=window.location.origin+'/';
+        var r=await c.auth.resetPasswordForEmail(email,{redirectTo:redirectTo});
+        if(r.error)return msg(r.error.message,false);
+        msg('Link reset password sudah dikirim jika email tersebut terdaftar.',true);
+      };
+      clearInterval(timer);
+    }else if(++tries>=100){
+      clearInterval(timer);
+    }
+  },100);
+})();
