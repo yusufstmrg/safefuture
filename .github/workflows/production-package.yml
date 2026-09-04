@@ -33,7 +33,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf .git .github/tmp-package
+          rm -rf .github/tmp-package
           mkdir -p .github/tmp-package
           git archive --format=zip --output=.github/tmp-package/SafeFuture_FULL_PRODUCTION_PACKAGE.zip HEAD
           cp .github/tmp-package/SafeFuture_FULL_PRODUCTION_PACKAGE.zip ./SafeFuture_FULL_PRODUCTION_PACKAGE.zip
