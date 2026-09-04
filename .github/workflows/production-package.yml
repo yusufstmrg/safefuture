@@ -1,0 +1,47 @@
+name: Safe Future Full Production Package
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate critical files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f js/production-final-hardening.js
+          test -f css/production-final-hardening.css
+          test -f js/phase5-crm.js
+          test -f js/phase3-workspace.js
+          test -f js/phase4-business-platform.js
+          echo 'Critical production files present.'
+
+      - name: Package repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .git .github/tmp-package
+          mkdir -p .github/tmp-package
+          git archive --format=zip --output=.github/tmp-package/SafeFuture_FULL_PRODUCTION_PACKAGE.zip HEAD
+          cp .github/tmp-package/SafeFuture_FULL_PRODUCTION_PACKAGE.zip ./SafeFuture_FULL_PRODUCTION_PACKAGE.zip
+
+      - name: Upload full production package
+        uses: actions/upload-artifact@v4
+        with:
+          name: SafeFuture_FULL_PRODUCTION_PACKAGE
+          path: SafeFuture_FULL_PRODUCTION_PACKAGE.zip
+          if-no-files-found: error
+          retention-days: 30
