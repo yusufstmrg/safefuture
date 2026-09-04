@@ -50,6 +50,11 @@ tailwind.config = {
     s.async=false;
     document.head.appendChild(s);
   }
+  function loadCssOnce(id,href){
+    if(document.getElementById(id))return;
+    var l=document.createElement('link');l.id=id;l.rel='stylesheet';l.href=href+'?v=20260904-final';
+    (document.head||document.documentElement).appendChild(l);
+  }
   function boot(){
     if(started || !window.supabaseClient)return;
     started=true;
@@ -57,6 +62,7 @@ tailwind.config = {
     loadScriptOnce('__sfHistoryAuthorityRequested','./js/history-authority.js');
     loadScriptOnce('__sfScrollGuardRequested','./js/scroll-stability-guard.js');
     loadScriptOnce('__sfProductionFinalHardeningRequested','./js/production-final-hardening.js');
+    loadCssOnce('sf-production-final-hardening-css','./css/production-final-hardening.css');
   }
   var tries=0;
   var timer=setInterval(function(){
