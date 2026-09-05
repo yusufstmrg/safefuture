@@ -1,0 +1,20 @@
+# Repository / build metadata
+.github/
+supabase/
+server.js
+package.json
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+wrangler.jsonc
+DEPLOY_TRIGGER_*.md
+RELEASE_TRIGGER.txt
+*.md
+
+# Local/runtime files
+.env
+.env.*
+!.env.example
+.dev.vars*
+.wrangler/
+node_modules/
