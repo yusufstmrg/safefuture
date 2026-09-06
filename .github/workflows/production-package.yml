@@ -27,7 +27,9 @@ jobs:
           test -f js/phase5-crm.js
           test -f js/phase3-workspace.js
           test -f js/phase4-business-platform.js
-          echo 'Critical production files present.'
+          test -f wrangler.jsonc
+          test -f .assetsignore
+          echo 'Critical production and Cloudflare files present.'
 
       - name: Package repository
         shell: bash
