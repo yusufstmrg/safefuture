@@ -19,6 +19,13 @@ const contentTypes = {
 
 const server = createServer((request, response) => {
   const requestPath = decodeURIComponent(new URL(request.url || '/', `http://${request.headers.host || 'localhost'}`).pathname);
+  if (requestPath === '/health') {
+    response.statusCode = 200;
+    response.setHeader('Cache-Control', 'no-store');
+    response.setHeader('Content-Type', 'application/json; charset=utf-8');
+    response.end(JSON.stringify({ ok: true, service: 'safe-future', environment: process.env.VERCEL_ENV || 'development', timestamp: new Date().toISOString() }));
+    return;
+  }
   const relativePath = requestPath === '/' ? 'index.html' : requestPath.replace(/^\/+/, '');
   const candidate = path.resolve(root, relativePath);
   const safePath = candidate.startsWith(root + path.sep) ? candidate : path.join(root, '404.html');
