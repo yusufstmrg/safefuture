@@ -1,29 +1,39 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createServer } from 'node:http';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const root = path.dirname(fileURLToPath(import.meta.url));
+const port = Number(process.env.PORT || 3000);
+const host = process.env.HOST || '0.0.0.0';
+const contentTypes = {
+  '.css': 'text/css; charset=utf-8',
+  '.html': 'text/html; charset=utf-8',
+  '.ico': 'image/x-icon',
+  '.js': 'text/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml',
+  '.webp': 'image/webp',
+};
 
-const app = express();
-const PORT = 3000;
-const HOST = '0.0.0.0';
+const server = createServer((request, response) => {
+  const requestPath = decodeURIComponent(new URL(request.url || '/', `http://${request.headers.host || 'localhost'}`).pathname);
+  const relativePath = requestPath === '/' ? 'index.html' : requestPath.replace(/^\/+/, '');
+  const candidate = path.resolve(root, relativePath);
+  const safePath = candidate.startsWith(root + path.sep) ? candidate : path.join(root, '404.html');
+  const filePath = existsSync(safePath) && statSync(safePath).isFile() ? safePath : path.join(root, '404.html');
+  const extension = path.extname(filePath).toLowerCase();
 
-// Serve static assets from root directory with clean URL support (.html)
-app.use(express.static(__dirname, {
-  extensions: ['html', 'htm']
-}));
-
-// Route for root
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  response.statusCode = filePath.endsWith('404.html') && !existsSync(safePath) ? 404 : 200;
+  response.setHeader('Content-Type', contentTypes[extension] || 'application/octet-stream');
+  response.setHeader('X-Content-Type-Options', 'nosniff');
+  createReadStream(filePath).on('error', () => {
+    response.statusCode = 500;
+    response.end('Internal server error');
+  }).pipe(response);
 });
 
-// Fallback 404 handler
-app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, '404.html'));
-});
-
-app.listen(PORT, HOST, () => {
-  console.log(`Safe Future server running on http://${HOST}:${PORT}`);
+server.listen(port, host, () => {
+  console.log(`Safe Future server running on http://${host}:${port}`);
 });

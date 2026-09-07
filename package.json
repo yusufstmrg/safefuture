@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.34.3",
   "scripts": {
     "dev": "node server.js",
-    "build": "echo 'Static build ready'",
+    "build": "node -e \"console.log('Safe Future static build ready')\"",
     "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^4.21.2"
   }
 }
