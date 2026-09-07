@@ -9,7 +9,7 @@
   const stages=['New','Diagnosed','Qualified','Solution Recommended','Advisor Contacted','Consultation','Proposal','Converted','Nurture'];
   const oppStages=['Discovery','Needs Analysis','Consultation','Solution Recommended','Proposal','Negotiation','Won','Lost'];
 
-  function getCreds(){return {username:(window.__sfAdminSession?.username)||sessionStorage.getItem('sf_admin')||'admin',passwordHash:(window.__sfAdminSession?.passwordHash)||''};}
+  function getCreds(){return {username:(window.__sfAdminSession?.username)||'',passwordHash:(window.__sfAdminSession?.passwordHash)||''};}
   async function crmAuth(){const c=supa();if(!c?.auth)return{user:null,error:new Error('Supabase Auth tidak tersedia')};const {data,error}=await c.auth.getSession();return{user:data?.session?.user||null,error};}
   async function rpc(name,params){const c=supa();if(!c)return{error:new Error('Supabase tidak tersedia')};const r=await c.rpc(name,params);if(r.error)console.warn('CRM RPC',name,r.error);return r;}
 
