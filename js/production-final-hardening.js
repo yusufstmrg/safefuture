@@ -123,8 +123,9 @@
       }
     };
     const closeModal=el=>{const modal=el?.closest(modalSelector);if(modal){modal.remove();lock();return true;}return false;};
-    observer=new MutationObserver(()=>{lock();decorateCustomerModal();});
-    observer.observe(document.body,{childList:true,subtree:true});
+    // Modal lifecycle is handled through delegated events below. A body-wide
+    // mutation observer causes recursive work while dashboard sections render.
+    observer=null;
     document.addEventListener('keydown',e=>{if(e.key==='Escape'){const modals=[...document.querySelectorAll(modalSelector)];const top=modals[modals.length-1];if(top){top.remove();lock();}}},true);
     document.addEventListener('click',e=>{
       const backdrop=e.target.closest(modalSelector);

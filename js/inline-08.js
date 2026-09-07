@@ -168,14 +168,17 @@
     });
 
     // Detect result rendering without disturbing the existing engine.
-    const observer=new MutationObserver(function(){
+    let observer;
+    observer=new MutationObserver(function(){
       const container=findResultContainer();
       const text=(container?.innerText||'').toLowerCase();
       if(container && (text.includes('financial health') || text.includes('health score') || text.includes('hasil assessment'))){
+        observer.disconnect();
         afterFhcCompleted();
       }
     });
     observer.observe(document.body,{subtree:true,childList:true});
+    setTimeout(()=>observer?.disconnect(),10000);
 
     // Also expose a manual hook for the existing submit function.
     window.safeFutureAfterFhcCompleted=afterFhcCompleted;
