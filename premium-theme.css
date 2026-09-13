@@ -1,0 +1,179 @@
+/* Safe Future - Premium Aesthetic Overlay */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+    background: radial-gradient(circle at 15% 10%, #061120 0%, #0A192F 50%, #030811 100%);
+    background-attachment: fixed;
+    color: #F8FAFC;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Subtle Animated Mesh Overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+      radial-gradient(circle at 80% 20%, rgba(201, 162, 39, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.03) 0%, transparent 50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Typography refinements */
+h1, h2, h3, h4, h5, .font-serif {
+    font-family: 'Playfair Display', serif;
+    letter-spacing: -0.02em;
+}
+
+/* Glassmorphism Cards */
+.sf-account-modal, .sf4-card, .sf5-module-shell, .sfai-window, .sf-panel {
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(201, 162, 39, 0.15) !important;
+    box-shadow: 0 25px 80px -10px rgba(0,0,0,0.4) !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.sf-account-modal:hover, .sf4-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 35px 100px -10px rgba(0,0,0,0.5) !important;
+}
+
+/* Elegant Buttons */
+button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+button:active {
+    transform: scale(0.97) !important;
+}
+
+.gold, .sf4-save, .sf-account-primary, .sf-result-wa-btn {
+    background: linear-gradient(135deg, #E5C765, #B08C1F) !important;
+    color: #0B1120 !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3) !important;
+}
+
+.gold:hover, .sf4-save:hover, .sf-account-primary:hover, .sf-result-wa-btn:hover {
+    box-shadow: 0 8px 25px rgba(201, 162, 39, 0.4) !important;
+    transform: translateY(-1px);
+}
+
+/* Smooth Scrolling & Reveal Animations */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Global fade in for sections */
+.fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pulse on AI Button */
+#tanyaAiFab {
+    animation: floatingPulse 4s infinite ease-in-out;
+}
+
+@keyframes floatingPulse {
+    0% { transform: translateY(0) scale(1); box-shadow: 0 10px 25px rgba(201,162,39,0.3); }
+    50% { transform: translateY(-6px) scale(1.02); box-shadow: 0 15px 35px rgba(201,162,39,0.5); }
+    100% { transform: translateY(0) scale(1); box-shadow: 0 10px 25px rgba(201,162,39,0.3); }
+}
+
+/* AI Chat Window Enhancements */
+.sfai-window {
+    border-radius: 24px;
+    overflow: hidden;
+}
+.sfai-head {
+    background: linear-gradient(135deg, #0B1120, #131E35) !important;
+    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+}
+.sfai-msg.bot .sfai-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+.sfai-msg.user .sfai-content {
+    background: linear-gradient(135deg, #E5C765, #B08C1F);
+    color: #0B1120;
+}
+
+/* Scroll Reveal Animations */
+.sf-reveal-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sf-reveal-card.sf-revealed,
+.sf-revealed .sf-reveal-card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Add a slight delay cascade if needed */
+.sf-revealed .sf-reveal-card:nth-child(1) { transition-delay: 0.1s; }
+.sf-revealed .sf-reveal-card:nth-child(2) { transition-delay: 0.2s; }
+.sf-revealed .sf-reveal-card:nth-child(3) { transition-delay: 0.3s; }
+.sf-revealed .sf-reveal-card:nth-child(4) { transition-delay: 0.4s; }
+
+/* Enhanced Hero Background */
+.hero-bg {
+    position: relative;
+    background-color: #061120 !important;
+    background-image: 
+        radial-gradient(ellipse 70% 60% at 85% 15%, rgba(201, 162, 39, 0.25) 0%, rgba(11, 17, 32, 0) 70%),
+        radial-gradient(ellipse 60% 60% at 10% 85%, rgba(56, 189, 248, 0.15) 0%, rgba(11, 17, 32, 0) 70%),
+        linear-gradient(135deg, #061120 0%, #0a172a 100%) !important;
+    overflow: hidden;
+}
+
+/* Floating Light Orbs for Hero */
+.hero-bg::before, .hero-bg::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    animation: floatOrb 12s infinite ease-in-out alternate;
+}
+
+.hero-bg::before {
+    width: 40vw; height: 40vw;
+    background: rgba(201, 162, 39, 0.08);
+    top: -10%; right: -10%;
+}
+
+.hero-bg::after {
+    width: 30vw; height: 30vw;
+    background: rgba(56, 189, 248, 0.05);
+    bottom: -10%; left: -10%;
+    animation-delay: -5s;
+}
+
+@keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 50px) scale(1.1); }
+}
+
+/* Elevate the header/navbar */
+#navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8) !important;
+    transition: all 0.4s ease;
+}

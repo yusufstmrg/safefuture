@@ -1,0 +1,41 @@
+/* Safe Future — Mobile Layout Hotfix
+ * Enforces strict viewport boundaries on small screens to prevent
+ * flex/grid children from stretching the body width beyond 100vw
+ * or creating a horizontal canvas on touch devices. */
+@media (max-width: 767px){
+  html{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding:0!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+  }
+  body{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding:0!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch;
+    position:relative!important;
+  }
+  #navbar,
+  main,
+  section,
+  footer{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  .sf-wpr-step-header{
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
+    overflow:hidden;
+  }
+}

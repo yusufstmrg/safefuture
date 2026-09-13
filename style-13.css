@@ -1,0 +1,6 @@
+/* v67: premium visual refinement only; existing layout and content geometry remain intact. */
+.sf-v55-visual::before,.sf-v55-section-visual::before{background-blend-mode:soft-light,normal;box-shadow:0 30px 90px rgba(8,17,31,.14), inset 0 0 0 1px rgba(255,255,255,.25)}
+.sf-v55-visual::after,.sf-v55-section-visual::after{content:"";position:absolute;inset:5%;border-radius:inherit;pointer-events:none;background:linear-gradient(120deg,rgba(255,255,255,.16),transparent 42%,rgba(201,162,39,.10));mix-blend-mode:screen;opacity:.65}
+.premium-card,.glass-card,.sf-product-card{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.sf-product-card{border-color:rgba(201,162,39,.12)}
+@media(prefers-reduced-motion:reduce){.sf-v55-visual::before,.sf-v55-section-visual::before,.sf-v55-visual::after,.sf-v55-section-visual::after{animation:none;transition:none}}

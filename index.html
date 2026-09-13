@@ -1,6 +1,27 @@
 <!DOCTYPE html>  
 <html lang="id">  
-<head>  
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HKVT12ZZYE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-HKVT12ZZYE');
+    </script>
+    
+    <!-- Midtrans Snap (Sandbox by default, replace URL for production) -->
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-RJ3CTEJmn3xuoIQf"></script>  
+    <script>
+      (function(){
+        try {
+          if (location.hostname.includes('workers.dev') || location.hostname.includes('safefuture.vercel.app')) {
+            location.replace('https://safe-future.ai.studio/' + location.pathname + location.search + location.hash);
+          }
+        } catch(e){}
+      })();
+    </script>
     <meta charset="UTF-8">
     <meta name="safe-future-build" content="v79-phase5-hardened">
     <meta name="sf-architecture" content="modular-static-supabase-ready">  
@@ -17,48 +38,51 @@
 
     <title>Safe Future — Financial Protection & Wealth Advisory</title>  
     <script src="https://cdn.tailwindcss.com"></script>  
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/chart.js?v=20260909-1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js?v=20260909-1"></script>  
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  
     <!-- safe-future_v72: compressed brochure PDF fallback + external assets -->
-    <script src="./js/inline-01.js?v=20260902-layout"></script>  
+    <script src="./js/inline-01.js?v=20260909-1"></script>  
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">  
-    <script src="./js/inline-02.js?v=20260902-layout"></script>  
-    <link rel="stylesheet" href="./css/style-01.css?v=20260902-layout">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css?v=20260909-1">  
+    <script src="./js/inline-02.js?v=20260909-1"></script>  
+    <link rel="stylesheet" href="./css/style-01.css?v=20260909-1">  
 
-<link rel="stylesheet" href="./css/style-02.css?v=20260902-layout">
-
-
-<link rel="stylesheet" href="./css/style-03.css?v=20260902-layout">
+<link rel="stylesheet" href="./css/style-02.css?v=20260909-1">
 
 
-<link rel="stylesheet" href="./css/style-04.css?v=20260902-layout">
+<link rel="stylesheet" href="./css/style-03.css?v=20260909-1">
 
 
-<link rel="stylesheet" href="./css/style-05.css?v=20260902-layout">
+<link rel="stylesheet" href="./css/style-04.css?v=20260909-1">
 
 
-<link rel="stylesheet" href="./css/style-06.css?v=20260902-layout">
-
-<link rel="stylesheet" href="./css/style-07.css?v=20260902-layout">
+<link rel="stylesheet" href="./css/style-05.css?v=20260909-1">
 
 
-<link rel="stylesheet" href="./css/style-08.css?v=20260902-layout">
+<link rel="stylesheet" href="./css/style-06.css?v=20260909-1">
 
-<link rel="stylesheet" href="./css/style-09.css?v=20260902-layout">
+<link rel="stylesheet" href="./css/style-07.css?v=20260909-1">
 
-<link rel="stylesheet" href="./css/style-10.css?v=20260902-layout">
-<link rel="stylesheet" href="./css/style-11.css?v=20260902-layout"><link rel="stylesheet" href="./css/style-12.css?v=20260902-layout">
-<link rel="stylesheet" href="./css/style-13.css?v=20260902-layout">
 
-<link rel="stylesheet" href="./css/style-14.css?v=20260902-layout">
+<link rel="stylesheet" href="./css/style-08.css?v=20260909-1">
+
+<link rel="stylesheet" href="./css/style-09.css?v=20260909-1">
+
+<link rel="stylesheet" href="./css/style-10.css?v=20260909-1">
+<link rel="stylesheet" href="./css/style-11.css?v=20260909-1"><link rel="stylesheet" href="./css/style-12.css?v=20260909-1">
+<link rel="stylesheet" href="./css/style-13.css?v=20260909-1">
+
+<link rel="stylesheet" href="./css/style-14.css?v=20260909-1">
+<link rel="stylesheet" href="./css/style-18.css?v=20260909-1">
     <link rel="manifest" href="./manifest.webmanifest">
-<link rel="stylesheet" href="./css/phase2-platform.css?v=20260902-layout">
-<link rel="stylesheet" href="./css/phase3-workspace.css?v=20260902-layout">
-    <link rel="stylesheet" href="./css/phase4-business-platform.css?v=20260902-layout">
-<link rel="canonical" href="https://safefuture.vercel.app/"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:site_name" content="Safe Future"><meta property="og:title" content="Safe Future — Financial Protection & Wealth Advisory"><meta property="og:description" content="Diagnosis sebelum rekomendasi. Pahami kondisi finansial, protection gap, dan prioritas Anda melalui Financial Health Check™."><meta property="og:url" content="https://safefuture.vercel.app/">    <link rel="stylesheet" href="./css/production-layout-stabilizer.css?v=20260902-layout">
-    <link rel="stylesheet" href="./css/mobile-layout-hotfix.css?v=20260902-layout">
+<link rel="stylesheet" href="./css/phase2-platform.css?v=20260909-1">
+<link rel="stylesheet" href="./css/phase3-workspace.css?v=20260909-1">
+    <link rel="stylesheet" href="./css/phase4-business-platform.css?v=20260909-1">
+<link rel="canonical" href="https://safefuture.vercel.app/"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:site_name" content="Safe Future"><meta property="og:title" content="Safe Future — Financial Protection & Wealth Advisory"><meta property="og:description" content="Diagnosis sebelum rekomendasi. Pahami kondisi finansial, protection gap, dan prioritas Anda melalui Financial Health Check™."><meta property="og:url" content="https://safefuture.vercel.app/">    <link rel="stylesheet" href="./css/production-layout-stabilizer.css?v=20260909-1">
+    <link rel="stylesheet" href="./css/mobile-layout-hotfix.css?v=20260909-1">
+  <link rel="stylesheet" href="css/premium-theme.css?v=20260909-1">
+  <script src="./js/calendar-booking.js?v=20260909-1"></script>
 </head>  
 <body class="text-slate-800">  
   
@@ -199,11 +223,12 @@
             <div class="grid md:grid-cols-2 gap-14 items-center">  
                 <div>  
                     <p class="text-gold-shiny uppercase tracking-[0.3em] text-xs mb-6 font-semibold">Financial Protection & Wealth Advisory</p>  
-                    <h1 class="font-serif text-4xl md:text-5xl lg:text-[3.4rem] font-bold leading-[1.12] mb-7">  
-                        Lindungi Apa yang Penting. <br> <em class="italic text-gold-shiny font-medium">Bangun Masa Depan Finansial dengan Percaya Diri.</em>  
+                    <h1 class="font-serif text-4xl md:text-5xl lg:text-[3.4rem] font-bold leading-[1.12] mb-5">  
+                        Safe Today. <br> <em class="italic text-gold-shiny font-medium">Secure Future.</em>  
                     </h1>  
-                    <p class="text-slate-300 mb-11 text-lg leading-relaxed max-w-xl">  
-                        Dari membangun kekayaan hingga melindungi apa yang telah Anda bangun, Safe Future membantu Anda memahami risiko, kebutuhan perlindungan, dan strategi finansial di setiap tahap kehidupan.  
+                    <p class="text-gold-dark font-medium tracking-[0.1em] text-sm mb-6 uppercase">Build &bull; Manage &bull; Protect &bull; Grow &bull; Legacy</p>
+                    <p class="text-slate-300 mb-9 text-lg leading-relaxed max-w-xl">  
+                        <strong>Diagnosis Sebelum Rekomendasi.</strong><br>Kami tidak menjual produk. Kami membantu Anda memahami kondisi finansial, mengidentifikasi <em>protection gap</em>, dan merancang strategi yang tepat untuk setiap tahap kehidupan.  
                     </p>  
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">  
                         <a href="#health-check" class="bg-gold-gradient text-navy px-8 py-4 rounded-md font-semibold transition-all duration-300 text-center flex items-center justify-center group overflow-hidden">  
@@ -271,16 +296,16 @@
                         <div class="w-14 h-14 rounded-xl bg-gold-gradient flex items-center justify-center mb-6">
                             <i class="fas fa-vault text-2xl text-navy"></i>
                         </div>
-                        <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-gold-shiny mb-2">Level 2 · Gratis</span>
+                        <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-gold-shiny mb-2">Level 2 &middot; Premium</span>
                         <h3 class="font-serif text-xl font-bold text-white mb-3">Wealth & Protection Review</h3>
-                        <p class="text-xs text-slate-400 mb-4 font-semibold uppercase tracking-wider">Untuk Affluent · Business Owners · Eksekutif</p>
+                        <p class="text-xs text-slate-400 mb-4 font-semibold uppercase tracking-wider">Untuk Affluent &middot; Business Owners &middot; Eksekutif</p>
                         <ul class="space-y-3 text-sm text-slate-300 mb-8 flex-1">
                             <li class="flex items-start"><i class="fas fa-circle-check text-gold-shiny mt-0.5 mr-3"></i> Review kekayaan, aset & net worth</li>
                             <li class="flex items-start"><i class="fas fa-circle-check text-gold-shiny mt-0.5 mr-3"></i> Alokasi aset & risiko konsentrasi</li>
                             <li class="flex items-start"><i class="fas fa-circle-check text-gold-shiny mt-0.5 mr-3"></i> Proteksi, kewajiban & keberlangsungan bisnis</li>
                             <li class="flex items-start"><i class="fas fa-circle-check text-gold-shiny mt-0.5 mr-3"></i> Pensiun, estate & legacy planning</li>
                         </ul>
-                        <button onclick="openWealthReview()" class="w-full bg-gold-gradient text-navy py-3 rounded-md font-semibold hover:opacity-90 transition">Mulai Review Gratis <i class="fas fa-arrow-right ml-2"></i></button>
+                        <button onclick="openWealthReview()" class="w-full bg-gold-gradient text-navy py-3 rounded-md font-semibold hover:opacity-90 transition">Jadwalkan Review <i class="fas fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
 
@@ -1826,10 +1851,10 @@
         </div>  
     </section>  
   
-    <script src="./js/inline-03.js?v=20260902-layout"></script>  
+    <script src="./js/inline-03.js?v=20260909-1"></script>  
 
     <!-- ============ TANYA AI — KNOWLEDGE BASE CHAT WIDGET ============ -->
-    <link rel="stylesheet" href="./css/style-19.css?v=20260902-layout">
+    <link rel="stylesheet" href="./css/style-19.css?v=20260909-1">
 
     <div id="tanyaAiFab" onclick="sfAiToggle()" title="Tanya AI" aria-label="Tanya AI — asisten virtual Safe Future">
         <span class="sfai-fab-ico">
@@ -1862,15 +1887,15 @@ Enter untuk baris baru • Ctrl/Cmd+Enter untuk mengirim" aria-label="Pertanyaan
         <div class="sfai-foot">Tanya AI Safe Future bersifat informatif &amp; edukatif. Jika informasi tidak tersedia atau keputusan membutuhkan penilaian personal, AI akan mengarahkan Anda untuk berkonsultasi dengan advisor Safe Future.</div>
     </div>
 
-    <script id="sf-embedded-assets" src="./js/inline-04.js?v=20260902-layout"></script>
-<script src="./js/inline-05.js?v=20260902-layout"></script>
+    <script id="sf-embedded-assets" src="./js/inline-04.js?v=20260909-1"></script>
+<script src="./js/inline-05.js?v=20260909-1"></script>
 
-<script id="sf-v38-admin-enhancements" src="./js/inline-06.js?v=20260902-layout"></script>
-    <link rel="stylesheet" href="./css/phase5-crm.css?v=20260902-layout">
-    <script id="sf-phase5-crm" src="./js/phase5-crm.js?v=20260902-layout"></script>
+<script id="sf-v38-admin-enhancements" src="./js/inline-06.js?v=20260909-1"></script>
+    <link rel="stylesheet" href="./css/phase5-crm.css?v=20260909-1">
+    <script id="sf-phase5-crm" src="./js/phase5-crm.js?v=20260909-1"></script>
 
 
-<script id="sf-v38-ux" src="./js/inline-07.js?v=20260902-layout"></script>
+<script id="sf-v38-ux" src="./js/inline-07.js?v=20260909-1"></script>
 
 
 
@@ -1900,19 +1925,22 @@ Enter untuk baris baru • Ctrl/Cmd+Enter untuk mengirim" aria-label="Pertanyaan
 </div>
 
 
-<script id="sf-v42-funnel-logic" src="./js/inline-08.js?v=20260902-layout"></script>
+<script id="sf-v42-funnel-logic" src="./js/inline-08.js?v=20260909-1"></script>
 
-<script id="sf-v54-scroll-motion" src="./js/inline-09.js?v=20260902-layout"></script>
-<script id="sf-v55-motion" src="./js/inline-10.js?v=20260902-layout"></script>
+<script id="sf-v54-scroll-motion" src="./js/inline-09.js?v=20260909-1"></script>
+<script id="sf-v55-motion" src="./js/inline-10.js?v=20260909-1"></script>
 
-<script id="sf-v58-scroll-premium" src="./js/inline-11.js?v=20260902-layout"></script>
+<script id="sf-v58-scroll-premium" src="./js/inline-11.js?v=20260909-1"></script>
 
-<script id="sf-account-platform-js" src="./js/inline-12.js?v=20260902-layout"></script>
-<script id="sf-platform-phase2" src="./js/phase2-platform.js?v=20260902-layout"></script>
-<script id="sf-platform-phase3" src="./js/phase3-workspace.js?v=20260902-layout"></script>
-<script id="sf-platform-phase4" src="./js/phase4-business-platform.js?v=20260902-layout"></script>
-<script id="sf-production-hardening" src="./js/production-hardening.js?v=20260902-layout"></script>
-<script id="sf-scroll-stability-guard" src="./js/scroll-stability-guard.js?v=20260902-layout"></script>
-<script id="sf-final-platform-fixes" src="./js/final-platform-fixes.js?v=20260902-layout"></script>
+<script id="sf-account-platform-js" src="./js/inline-12.js?v=20260909-1"></script>
+<script id="sf-platform-phase2" src="./js/phase2-platform.js?v=20260909-1"></script>
+<script id="sf-platform-phase3" src="./js/phase3-workspace.js?v=20260909-1"></script>
+<script id="sf-platform-phase4" src="./js/phase4-business-platform.js?v=20260909-1"></script>
+<script src="./js/monte-carlo-simulator.js?v=20260909-1"></script>
+<script id="sf-production-hardening" src="./js/production-hardening.js?v=20260909-1"></script>
+<script id="sf-scroll-stability-guard" src="./js/scroll-stability-guard.js?v=20260909-1"></script>
+<script id="sf-final-platform-fixes" src="./js/final-platform-fixes.js?v=20260909-1"></script>
+<script id="sf-client-portal-js" src="./js/client-portal.js?v=20260909-1"></script>
+<script src="./js/premium-ux.js?v=20260909-1"></script>
 </body>  
 </html>

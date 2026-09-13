@@ -1,0 +1,1 @@
+#navbar .nav-link.nav-active::after{transform:scaleX(1)}#navbar .nav-link.nav-active{color:#B08C1F}@media(prefers-reduced-motion:reduce){#navbar .nav-link.nav-active::after{transition:none}}
