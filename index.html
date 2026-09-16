@@ -14,13 +14,9 @@
     <!-- Midtrans Snap (Sandbox by default, replace URL for production) -->
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-RJ3CTEJmn3xuoIQf"></script>  
     <script>
-      (function(){
-        try {
-          if (location.hostname.includes('workers.dev') || location.hostname.includes('safefuture.vercel.app')) {
-            location.replace('https://safe-future.ai.studio/' + location.pathname + location.search + location.hash);
-          }
-        } catch(e){}
-      })();
+       (function(){
+         // No redirect for this deployment; previously redirected to safe-future.ai.studio.
+       })();
     </script>
     <meta charset="UTF-8">
     <meta name="safe-future-build" content="v79-phase5-hardened">
