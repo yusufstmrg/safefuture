@@ -370,7 +370,7 @@
                 const goalsNote = goalsPreliminary ? "Penilaian tujuan finansial bersifat preliminary (data timeline per tujuan belum tersedia)." : "";
 
                 // P0C-5: weighted overall score — Cash Flow 20% / Emergency 15% / Debt 15% / Protection 20% / Retirement 15% / Asset 10% / Goals 5%  
-                const overallScore = Math.round(scoreCashflow * 0.20 + scoreEmergency * 0.15 + scoreDebt * 0.15 + scoreProtection * 0.20 + scoreRetirement * 0.15 + scoreAsset * 0.10 + scoreGoals * 0.05);  
+                const scoreHealth = limitHealth > 0 ? 100 : 0; const scoreEdu = danaPendidikan > 0 ? (asetInvestasi > 0 ? 80 : 40) : 100; const overallScore = Math.round(scoreCashflow * 0.10 + scoreEmergency * 0.10 + scoreDebt * 0.10 + scoreProtection * 0.15 + scoreHealth * 0.10 + scoreKritis * 0.10 + scoreRetirement * 0.10 + scoreEdu * 0.10 + scoreAsset * 0.10 + scoreGoals * 0.05);  
 
                 // ===== 3 SCENARIOS (Retirement) — v18 shared engine: single longevity 85, only inflasi/return differ =====  
                 const retEngine = computeRetirementScenarios(retMonthlyTarget, projectedAssets, usiaPensiun, yearsToRetirement, retContribution, existingRetSources);  
@@ -533,10 +533,10 @@
                     nama, wa, kota, pekerjaan, dob, status: statusNikah, anak: jumlahAnak, bpjs, jiwaKantorN, finGoals, goalTargets, usiaSekarang, usiaPensiun, harapanHidup, incomeRange: incomeRangeSel, incomeReplacementYears, finalExpense, cicilanBulanan, retSources: { bpjs: document.getElementById('srcBpjs')?.checked ? numVal('srcBpjsNilai') : 0, dplk: document.getElementById('srcDplk')?.checked ? numVal('srcDplkNilai') : 0, perusahaan: document.getElementById('srcPerusahaan')?.checked ? numVal('srcPerusahaanNilai') : 0 }, totalIncome, expense, asetLikuid, asetInvestasi, asetNonLikuid, totalWealth,   
                     totalUtang, upJiwa, limitHealth, kritisFHC, ciGap, danaPendidikan, incomeReplacementYears, finalExpense, usiaPensiun, harapanHidup, retMode: getRetMode(), retMonthlyTarget, retLumpTarget, existingRetSources, retContribution,  
                     insuranceProtection, liquidResources, totalNeed, protectionGap, gapFV, totalGapModerat, retirementGapToday, ciGap, goalsNote,
-                    overallScore, priorities, scoreCashflow, scoreDebt, scoreEmergency, scoreProtection, scoreRetirement, scoreAsset, scoreGoals, scoreKritis,
+                    overallScore, priorities, scoreCashflow, scoreDebt, scoreEmergency, scoreProtection, scoreHealth, scoreKritis, scoreRetirement, scoreEdu, scoreAsset, scoreGoals,
                     incomeReplaceNeed, debtSettleNeed, eduNeed, finalExpenseNeed, ciReserveEstimate, ciProtection,
                     retYearsScenario, needFV, assetFV, scenarios, projectedAssets, existingRetSources, savingRate, debtRatio, diagSummary,
-                    fhcSnapshot: { overallScore, scores:{cashflow:scoreCashflow,debt:scoreDebt,emergency:scoreEmergency,protection:scoreProtection,retirement:scoreRetirement,asset:scoreAsset,goals:scoreGoals,criticalIllness:scoreKritis},
+                    fhcSnapshot: { overallScore, scores:{cashflow:scoreCashflow,debt:scoreDebt,emergency:scoreEmergency,protection:scoreProtection,health:scoreHealth,criticalIllness:scoreKritis,retirement:scoreRetirement,education:scoreEdu,asset:scoreAsset,goals:scoreGoals},
                         protection:{incomeReplacementNeed:incomeReplaceNeed,debtSettlementNeed:debtSettleNeed,educationNeed:eduNeed,finalExpenseNeed:finalExpenseNeed,totalNeed,currentProtection:insuranceProtection,liquidResources,protectionGap},
                         criticalIllness:{reserveEstimate:ciReserveEstimate,currentProtection:ciProtection,gap:ciGap},
                         retirement:{mode:getRetMode(),targetMonthly:retMonthlyTarget,targetLump:retLumpTarget,retirementAge:usiaPensiun,yearsToRetirement,projectedAssets,existingSources:existingRetSources,contribution:retContribution,scenarios,needFV,assetFV,gapFV,gapModerate:gapFV.moderat},

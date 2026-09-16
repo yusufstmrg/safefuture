@@ -33,14 +33,16 @@
     return {
       assessment: 'FHC',
       score: pick(d,['score','overallScore','fhcScore']),
-      cashflow: pick(d,['cashFlowScore','cashflowScore']),
-      emergency: pick(d,['emergencyScore','emergencyFundScore']),
-      debt: pick(d,['debtScore']),
-      protection: pick(d,['protectionScore','lifeProtectionScore']),
-      criticalIllness: pick(d,['criticalIllnessScore']),
-      retirement: pick(d,['retirementScore']),
-      asset: pick(d,['assetScore']),
-      goals: pick(d,['goalsScore','goalScore']),
+      cashflow: pick(d,['cashFlowScore','cashflowScore','scoreCashflow']),
+      emergency: pick(d,['emergencyScore','emergencyFundScore','scoreEmergency']),
+      debt: pick(d,['debtScore','scoreDebt']),
+      protection: pick(d,['protectionScore','lifeProtectionScore','scoreProtection']),
+      health: pick(d,['scoreHealth','healthScore']),
+      criticalIllness: pick(d,['criticalIllnessScore','scoreKritis']),
+      retirement: pick(d,['retirementScore','scoreRetirement']),
+      education: pick(d,['scoreEdu','educationScore']),
+      asset: pick(d,['assetScore','scoreAsset']),
+      goals: pick(d,['goalsScore','goalScore','scoreGoals']),
       protectionGap: pick(d,['protectionGap','lifeProtectionGap']),
       criticalIllnessGap: pick(d,['criticalIllnessGap','ciGap']),
       retirementGap: pick(d,['retirementGap','retGap'])
@@ -161,7 +163,11 @@
       if(!result.ok) saveLeadLocally(lead);
 
       const message=encodeURIComponent(
-        'Halo Safe Future, saya sudah melakukan Financial Health Check dan ingin mendiskusikan hasil saya.\\n\\nNama: '+name+'\\nSaya ingin memahami hasil assessment dan prioritas yang sebaiknya saya lakukan.'
+        'Halo Safe Future, saya sudah melakukan Financial Health Check dan ingin mendiskusikan hasil saya.\n\n' +
+        'Nama: '+name+'\n' +
+        'FHC Score: '+(diagnosis.score ?? '-')+'/100\n' +
+        'Protection Gap: Rp '+(diagnosis.protectionGap ? diagnosis.protectionGap.toLocaleString('id-ID') : '-')+'\n\n' +
+        'Saya ingin memahami hasil assessment dan prioritas yang sebaiknya saya lakukan.'
       );
       window.open('https://wa.me/6285887836384?text='+message,'_blank','noopener');
       closeSfLeadModal();

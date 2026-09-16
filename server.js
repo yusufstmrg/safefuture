@@ -39,6 +39,11 @@ Tulis dengan gaya bahasa yang profesional, elegan, berempati, dan sangat rapi.
 Gunakan format HTML secara langsung (gunakan <h3>, <p>, <ul>, <li>, <strong>) agar bisa dirender di web. 
 Jangan gunakan tag <html> atau <body>, cukup HTML snippet bagian isinya saja.
 
+PERHATIAN (BERDASARKAN MASTER BUSINESS PLAN):
+- Laporan ini WAJIB bersifat edukatif/informasional.
+- Anda TIDAK BOLEH memberikan rekomendasi spesifik atau membuat janji imbal hasil investasi.
+- Selalu berikan DISCLAIMER di akhir laporan bahwa ini adalah ilustratif dan klien disarankan berkonsultasi dengan Private Advisor untuk rekomendasi spesifik.
+
 Data Klien:
 ${JSON.stringify(reportData, null, 2)}
 
@@ -46,8 +51,8 @@ Struktur Laporan:
 1. Pengantar Personal yang Hangat (Greeting & Apresiasi).
 2. Analisis Kesehatan Finansial Utama (Kekuatan & Kelemahan terbesar).
 3. "The Protection & Retirement Gap" - Jelaskan dengan bahasa awam dan elegan mengenai angka gap mereka.
-4. "The Next 3 Moves" - 3 langkah prioritas (Action Plan) yang harus dilakukan klien bersama tim Safe Future.
-5. Penutup yang meyakinkan.
+4. "The Next 3 Moves" - 3 langkah prioritas (Action Plan) edukatif yang harus dilakukan klien bersama tim Safe Future.
+5. Penutup yang meyakinkan & Disclaimer kepatuhan (Compliance Disclaimer).
     `;
 
     const response = await ai.models.generateContent({
@@ -101,6 +106,7 @@ PERHATIAN (BERDASARKAN MASTER BUSINESS PLAN):
 4. Jangan memberikan klaim garansi hasil investasi atau underwriting yang berlebihan (Truth Engine).
 5. Gunakan gaya bahasa Indonesia yang natural, elegan (seperti konsultan Big 4 atau Private Bank).
 6. Anda memiliki kemampuan Google Search untuk memverifikasi informasi publik atau meriset berita dan data terkini.
+7. SETIAP kali memberikan perhitungan finansial atau membahas produk, wajib berikan disclaimer singkat bahwa informasi ini bersifat edukatif/ilustratif dan sarankan konsultasi dengan Private Advisor Manulife untuk rekomendasi definitif.
     `;
 
     const formattedHistory = (history || []).map(msg => ({
@@ -115,7 +121,7 @@ PERHATIAN (BERDASARKAN MASTER BUSINESS PLAN):
     contents.push({ role: 'user', parts: [{ text: message }] });
 
     const response = await ai.models.generateContent({
-        model: 'gemini-3.6-flash',
+        model: 'gemini-2.5-flash',
         contents: contents,
         config: {
             systemInstruction: systemPrompt,
