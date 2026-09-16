@@ -1021,9 +1021,18 @@
                     </div>  
                     <div class="flex flex-col md:flex-row gap-4 justify-center">  
                         <button onclick="sendToWA()" class="bg-green-600 text-white px-8 py-4 rounded-md font-semibold hover:bg-green-700 transition flex items-center justify-center"><i class="fab fa-whatsapp mr-2 text-xl"></i> Diskusikan Hasil via WhatsApp</button>
+                        <button onclick="generateAiSummary()" class="bg-gold-shiny text-navy px-8 py-3 rounded-md font-semibold hover:opacity-90 transition flex items-center justify-center"><i class="fas fa-magic mr-2"></i> Buat Executive Summary (AI)</button>
                         <button onclick="fhcPrintPDF()" class="bg-navy text-white px-8 py-3 rounded-md font-semibold hover:bg-navy-light transition flex items-center justify-center"><i class="fas fa-file-pdf mr-2"></i> Download Hasil PDF</button>
                         <button onclick="sfOpenAccount()" class="border border-gold-shiny text-gold-dark px-8 py-3 rounded-md font-semibold hover:bg-cream transition flex items-center justify-center"><i class="fas fa-user-plus mr-2"></i> Simpan Hasil di Akun Gratis</button>
                         <button onclick="restartFHC()" class="text-slate-500 px-8 py-3 rounded-md font-semibold hover:bg-slate-100 transition">Ulangi Tes</button>  
+                    </div>  
+                    
+                    <div id="aiSummaryContainer" class="mt-10 p-8 bg-gradient-to-br from-cream to-white border border-gold-shiny rounded-xl shadow-lg hidden">
+                        <div class="flex items-center gap-3 mb-6">
+                            <i class="fas fa-robot text-3xl text-gold-shiny"></i>
+                            <h3 class="font-serif text-2xl font-bold text-navy">AI Executive Summary</h3>
+                        </div>
+                        <div id="aiSummaryContent" class="text-slate-700 space-y-4 leading-relaxed"></div>
                     </div>  
         </div>  
     </section>  

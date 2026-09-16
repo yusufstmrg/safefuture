@@ -424,12 +424,12 @@
                 document.getElementById('overallScore').textContent = overallScore;
                 setTimeout(ensureFhcShareSection,30);  
                 // P0C-5: reassuring, non-judgmental labels  
-                let scoreStatus = "High Priority";  
+                let scoreStatus = "Prioritas Tinggi";  
                 let scoreColor = "#dc2626";  
-                if(overallScore >= 80) { scoreStatus = "Strong Foundation"; scoreColor = "#16a34a"; }  
-                else if(overallScore >= 60) { scoreStatus = "Healthy"; scoreColor = "#C9A227"; }  
-                else if(overallScore >= 40) { scoreStatus = "Needs Attention"; scoreColor = "#f97316"; }  
-                else if(overallScore >= 20) { scoreStatus = "Vulnerable"; scoreColor = "#dc2626"; }  
+                if(overallScore >= 80) { scoreStatus = "Sangat Sehat"; scoreColor = "#16a34a"; }  
+                else if(overallScore >= 60) { scoreStatus = "Sehat"; scoreColor = "#C9A227"; }  
+                else if(overallScore >= 40) { scoreStatus = "Perlu Perhatian"; scoreColor = "#f97316"; }  
+                else if(overallScore >= 20) { scoreStatus = "Rentan"; scoreColor = "#dc2626"; }  
                 document.getElementById('scoreDesc').textContent = scoreStatus;  
                 document.getElementById('scoreDesc').style.color = scoreColor;  
                 document.getElementById('scoreCircle').style.stroke = scoreColor;  
@@ -446,10 +446,10 @@
                 radarChart = new Chart(ctx, {  
                     type: 'radar',  
                     data: {  
-                        labels: ['Cash Flow', 'Debt', 'Emergency', 'Protection', 'Retirement', 'Asset', 'Goals'],  
+                        labels: ['Arus Kas', 'Dana Darurat', 'Utang', 'Proteksi Jiwa', 'Proteksi Kesehatan', 'Sakit Kritis', 'Pensiun', 'Pendidikan', 'Aset', 'Goals'],  
                         datasets: [{  
                             label: 'Score',  
-                            data: [scoreCashflow, scoreDebt, scoreEmergency, scoreProtection, scoreRetirement, scoreAsset, scoreGoals],  
+                            data: [scoreCashflow, scoreEmergency, scoreDebt, scoreProtection, scoreHealth, scoreKritis, scoreRetirement, scoreEdu, scoreAsset, scoreGoals],  
                             backgroundColor: 'rgba(212, 175, 55, 0.2)',  
                             borderColor: 'rgba(212, 175, 55, 1)',  
                             pointBackgroundColor: 'rgba(11, 17, 32, 1)',  
@@ -2448,4 +2448,31 @@ function closeProductModal() {
             updateWPRUI();
         }
 
-    
+     
+                 a s y n c   f u n c t i o n   g e n e r a t e A i S u m m a r y ( )   {  
+                         c o n s t   b t n   =   d o c u m e n t . q u e r y S e l e c t o r ( ' b u t t o n [ o n c l i c k = " g e n e r a t e A i S u m m a r y ( ) " ] ' ) ;  
+                         c o n s t   c o n t a i n e r   =   d o c u m e n t . g e t E l e m e n t B y I d ( ' a i S u m m a r y C o n t a i n e r ' ) ;  
+                         c o n s t   c o n t e n t   =   d o c u m e n t . g e t E l e m e n t B y I d ( ' a i S u m m a r y C o n t e n t ' ) ;  
+                         i f ( b t n )   {   b t n . d i s a b l e d   =   t r u e ;   b t n . i n n e r H T M L   =   ' < i   c l a s s = " f a s   f a - s p i n n e r   f a - s p i n   m r - 2 " > < / i >   S e d a n g   M e m b u a t . . . ' ;   }  
+                         c o n t a i n e r . c l a s s L i s t . r e m o v e ( ' h i d d e n ' ) ;  
+                         c o n t e n t . i n n e r H T M L   =   ' < p   c l a s s = " a n i m a t e - p u l s e " > A I   s e d a n g   m e n g a n a l i s i s   d a t a   A n d a   d a n   m e n y u s u n   E x e c u t i v e   S u m m a r y . . . < / p > ' ;  
+                         t r y   {  
+                                 c o n s t   r e s   =   a w a i t   f e t c h ( ' / a p i / g e n e r a t e - a i - r e p o r t ' ,   {  
+                                         m e t h o d :   ' P O S T ' ,  
+                                         h e a d e r s :   {   ' C o n t e n t - T y p e ' :   ' a p p l i c a t i o n / j s o n '   } ,  
+                                         b o d y :   J S O N . s t r i n g i f y ( {  
+                                                 t y p e :   ' F i n a n c i a l   H e a l t h   C h e c k ' ,  
+                                                 r e p o r t D a t a :   w i n d o w . _ _ f h c S c e n a r i o s   | |   { }  
+                                         } )  
+                                 } ) ;  
+                                 i f ( ! r e s . o k )   t h r o w   n e w   E r r o r ( ' A P I   e r r o r ' ) ;  
+                                 c o n s t   h t m l T e x t   =   a w a i t   r e s . t e x t ( ) ;  
+                                 c o n t e n t . i n n e r H T M L   =   h t m l T e x t ;  
+                         }   c a t c h ( e )   {  
+                                 c o n t e n t . i n n e r H T M L   =   ' < p   c l a s s = " t e x t - r e d - 6 0 0 " > M a a f ,   t e r j a d i   k e s a l a h a n   s a a t   m e m a n g g i l   A I .   S i l a k a n   c o b a   l a g i   n a n t i . < / p > ' ;  
+                                 c o n s o l e . e r r o r ( e ) ;  
+                         }   f i n a l l y   {  
+                                 i f ( b t n )   {   b t n . d i s a b l e d   =   f a l s e ;   b t n . i n n e r H T M L   =   ' < i   c l a s s = " f a s   f a - m a g i c   m r - 2 " > < / i >   B u a t   E x e c u t i v e   S u m m a r y   ( A I ) ' ;   }  
+                         }  
+                 }  
+ 
