@@ -9,6 +9,8 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const rootDir = process.env.VERCEL ? process.cwd() : __dirname;
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
@@ -17,7 +19,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static assets from root directory with clean URL support (.html)
-app.use(express.static(__dirname, {
+app.use(express.static(rootDir, {
   extensions: ['html', 'htm']
 }));
 
@@ -304,12 +306,16 @@ app.post('/api/whatsapp/send', async (req, res) => {
 
 // Route for root
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(rootDir, 'index.html'), (err) => {
+    if (err) res.status(404).send("Frontend not found in API bundle.");
+  });
 });
 
 // Fallback 404 handler
 app.use((req, res) => {
-  res.status(404).sendFile(path.join(__dirname, '404.html'));
+  res.sendFile(path.join(rootDir, '404.html'), (err) => {
+    if (err) res.status(404).send("404 Not Found");
+  });
 });
 
 if (!process.env.VERCEL) {

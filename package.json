@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "dev": "node server.js",
-    "build": "echo 'Static build ready'",
     "start": "node server.js",
     "lint": "node --check server.js"
   },

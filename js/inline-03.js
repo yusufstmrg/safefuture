@@ -740,6 +740,36 @@ function downloadFHCShareCard(){
 </body></html>`); w.document.close();
         }
 
+        async function generateAiSummary() {
+            const btn = document.querySelector('button[onclick="generateAiSummary()"]');
+            const container = document.getElementById('aiSummaryContainer');
+            const content = document.getElementById('aiSummaryContent');
+            
+            if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menganalisis...';
+            container.classList.remove('hidden');
+            content.innerHTML = '<p class="text-slate-500 italic">Chi sedang menyusun Executive Summary berdasarkan data finansial Anda...</p>';
+            
+            try {
+                const response = await fetch('/api/generate-ai-report', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reportData: window.fhcDataSnapshot || {},
+                        type: 'Financial Health Check'
+                    })
+                });
+                
+                if (!response.ok) throw new Error('API Error ' + response.status);
+                const data = await response.json();
+                content.innerHTML = data.answer || 'Gagal menghasilkan summary.';
+            } catch (err) {
+                console.error(err);
+                content.innerHTML = '<p class="text-red-500">Maaf, terjadi kesalahan saat menghubungi AI. Silakan coba lagi nanti.</p>';
+            } finally {
+                if(btn) btn.innerHTML = '<i class="fas fa-magic mr-2"></i> Buat Executive Summary (AI)';
+            }
+        }
+
         function restartFHC() {  
             document.getElementById('fhcResultContainer').classList.add('hidden');  
             currentStep = 1;  
