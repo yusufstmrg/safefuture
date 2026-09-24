@@ -161,6 +161,6 @@
   document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,1200));
   const wait=setInterval(async()=>{if(window.supabaseClient){clearInterval(wait);await boot()}},500);
   window.addEventListener('sf:dashboard-opened',()=>boot());
-  const observer=new MutationObserver(()=>{if(document.getElementById('sf4Reports')||document.getElementById('sf4FhcHistory')){renderHistory();renderReports()}});
+  let debounce=null;const observer=new MutationObserver(()=>{clearTimeout(debounce);debounce=setTimeout(()=>{if(document.getElementById('sf4Reports')||document.getElementById('sf4FhcHistory')){renderHistory();renderReports()}},100)});
   observer.observe(document.body,{childList:true,subtree:true});
 })();
