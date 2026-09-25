@@ -23,10 +23,10 @@
   function renderReportRows(host, reports, fhc, wpr){
     if(!host)return;
     if(!reports.length){
-      host.innerHTML='<div class="sf-final-empty">Belum ada laporan tersimpan. Selesaikan Financial Health Check atau Wealth & Protection Review untuk membangun report Anda.</div>';
+      if(host.innerHTML!=='<div class="sf-final-empty">Belum ada laporan tersimpan. Selesaikan Financial Health Check atau Wealth & Protection Review untuk membangun report Anda.</div>') host.innerHTML='<div class="sf-final-empty">Belum ada laporan tersimpan. Selesaikan Financial Health Check atau Wealth & Protection Review untuk membangun report Anda.</div>';
       return;
     }
-    host.innerHTML=reports.map((r,i)=>{
+    const html = reports.map((r,i)=>{
       const type=String(r.report_type||'REPORT').toUpperCase();
       const src=reportSource(type,r,fhc,wpr);
       const score=type==='FHC' ? (src?.overall_score??src?.fhc_scores?.[0]?.overall_score) : (src?.overall_score??src?.wpr_results?.[0]?.overall_score);
@@ -39,7 +39,7 @@
         <div class="sf-final-report-main"><strong>${type==='FHC'?'Financial Health Check™':'Wealth & Protection Review™'}</strong><small>${fmt(when)} · ${esc(r.status||'Tersedia')}</small>${score!=null?`<span>Score <b>${Math.round(Number(score))}/100</b></span>`:''}</div>
         <div class="sf-final-report-actions">${canOpen?`<button type="button" data-sf-final-view="${rid}" data-sf-final-type="${type}" data-sf-final-source="${sid}">Lihat</button><button type="button" data-sf-final-download="${rid}" data-sf-final-type="${type}" data-sf-final-source="${sid}">Download PDF</button>`:'<span class="sf-final-report-pending">Menunggu hasil</span>'}</div>
       </article>`;
-    }).join('');
+    }).join(''); if(host.innerHTML!==html) host.innerHTML=html;
   }
 
   function buildReports(fhc,wpr,reports){
