@@ -35,7 +35,7 @@
   }
   try{
     run();
-    new MutationObserver(function(){ unlockPublicScroll(); })
-      .observe(document.documentElement,{attributes:true,attributeFilter:['class','style','aria-hidden','data-sf-overlay','data-sf-modal'],subtree:true,childList:true});
+    // Do not observe document styles: unlockPublicScroll() writes styles and
+    // would recursively trigger this observer, freezing the entire page.
   }catch(e){console.warn('Safe Future scroll stability guard:',e)}
 })();

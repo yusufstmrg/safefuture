@@ -65,8 +65,9 @@
     try{client.auth.onAuthStateChange((_e,s)=>{if(s?.user){schedule(100);setTimeout(run,900);setTimeout(run,2500)}})}catch{}
     schedule(300);setTimeout(run,1600);setTimeout(run,4200);
     hookAccount();setInterval(hookAccount,500);
-    const root=document.body;
-    if(root&&window.MutationObserver){let last=0;const obs=new MutationObserver(()=>{const now=Date.now();if(now-last<500)return;last=now;if($('sfDashContent'))schedule(80)});obs.observe(root,{childList:true,subtree:true})}
+    // Dashboard mutations are already covered by the explicit schedules above.
+    // Avoid observing the whole body because dashboard rendering can trigger a
+    // sustained mutation/render cycle on the public page.
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)schedule(150)});
   }
   document.addEventListener('DOMContentLoaded',()=>setTimeout(start,650));
