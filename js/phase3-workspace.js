@@ -342,7 +342,7 @@
   /* Load WPR hardening after this module so it can see the same Supabase client. */
   try{
     const h=document.createElement('script');
-    h.src='./js/wpr-persistence-hardening.js?v=20260827-1800';
+    h.src='./js/wpr-persistence-hardening.js?v=20260927-cachebust';
     h.defer=true;
     document.head.appendChild(h);
   } catch {}

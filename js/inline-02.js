@@ -46,7 +46,7 @@ tailwind.config = {
     if(window[flag] || hasScript(src)){ window[flag]=true; return; }
     window[flag]=true;
     var s=document.createElement('script');
-    s.src=src+'?v=20260902-layout';
+    s.src=src+'?v=20260927-cachebust';
     s.async=false;
     document.head.appendChild(s);
   }
@@ -58,10 +58,10 @@ tailwind.config = {
   function boot(){
     if(started || !window.supabaseClient)return;
     started=true;
-    loadScriptOnce('__sfFinalPlatformFixRequested','./js/final-platform-fixes.js');
-    loadScriptOnce('__sfHistoryAuthorityRequested','./js/history-authority.js');
-    loadScriptOnce('__sfScrollGuardRequested','./js/scroll-stability-guard.js');
-    loadScriptOnce('__sfProductionFinalHardeningRequested','./js/production-final-hardening.js');
+    loadScriptOnce('__sfFinalPlatformFixRequested','./js/final-platform-fixes.js?v=20260927-cachebust');
+    loadScriptOnce('__sfHistoryAuthorityRequested','./js/history-authority.js?v=20260927-cachebust');
+    loadScriptOnce('__sfScrollGuardRequested','./js/scroll-stability-guard.js?v=20260927-cachebust');
+    loadScriptOnce('__sfProductionFinalHardeningRequested','./js/production-final-hardening.js?v=20260927-cachebust');
     loadCssOnce('sf-production-final-hardening-css','./css/production-final-hardening.css');
   }
   var tries=0;
