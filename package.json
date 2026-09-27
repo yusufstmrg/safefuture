@@ -6,7 +6,21 @@
   "packageManager": "pnpm@10.34.3",
   "scripts": {
     "dev": "node server.js",
+<<<<<<< HEAD
     "build": "node -e \"console.log('Safe Future static build ready')\"",
     "start": "node server.js"
+=======
+    "start": "node server.js",
+    "lint": "node --check server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.21.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^4.22.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+>>>>>>> origin/main
   }
 }

@@ -370,7 +370,7 @@
                 const goalsNote = goalsPreliminary ? "Penilaian tujuan finansial bersifat preliminary (data timeline per tujuan belum tersedia)." : "";
 
                 // P0C-5: weighted overall score — Cash Flow 20% / Emergency 15% / Debt 15% / Protection 20% / Retirement 15% / Asset 10% / Goals 5%  
-                const overallScore = Math.round(scoreCashflow * 0.20 + scoreEmergency * 0.15 + scoreDebt * 0.15 + scoreProtection * 0.20 + scoreRetirement * 0.15 + scoreAsset * 0.10 + scoreGoals * 0.05);  
+                const scoreHealth = limitHealth > 0 ? 100 : 0; const scoreEdu = danaPendidikan > 0 ? (asetInvestasi > 0 ? 80 : 40) : 100; const overallScore = Math.round(scoreCashflow * 0.10 + scoreEmergency * 0.10 + scoreDebt * 0.10 + scoreProtection * 0.15 + scoreHealth * 0.10 + scoreKritis * 0.10 + scoreRetirement * 0.10 + scoreEdu * 0.10 + scoreAsset * 0.10 + scoreGoals * 0.05);  
 
                 // ===== 3 SCENARIOS (Retirement) — v18 shared engine: single longevity 85, only inflasi/return differ =====  
                 const retEngine = computeRetirementScenarios(retMonthlyTarget, projectedAssets, usiaPensiun, yearsToRetirement, retContribution, existingRetSources);  
@@ -424,12 +424,12 @@
                 document.getElementById('overallScore').textContent = overallScore;
                 setTimeout(ensureFhcShareSection,30);  
                 // P0C-5: reassuring, non-judgmental labels  
-                let scoreStatus = "High Priority";  
+                let scoreStatus = "Prioritas Tinggi";  
                 let scoreColor = "#dc2626";  
-                if(overallScore >= 80) { scoreStatus = "Strong Foundation"; scoreColor = "#16a34a"; }  
-                else if(overallScore >= 60) { scoreStatus = "Healthy"; scoreColor = "#C9A227"; }  
-                else if(overallScore >= 40) { scoreStatus = "Needs Attention"; scoreColor = "#f97316"; }  
-                else if(overallScore >= 20) { scoreStatus = "Vulnerable"; scoreColor = "#dc2626"; }  
+                if(overallScore >= 80) { scoreStatus = "Sangat Sehat"; scoreColor = "#16a34a"; }  
+                else if(overallScore >= 60) { scoreStatus = "Sehat"; scoreColor = "#C9A227"; }  
+                else if(overallScore >= 40) { scoreStatus = "Perlu Perhatian"; scoreColor = "#f97316"; }  
+                else if(overallScore >= 20) { scoreStatus = "Rentan"; scoreColor = "#dc2626"; }  
                 document.getElementById('scoreDesc').textContent = scoreStatus;  
                 document.getElementById('scoreDesc').style.color = scoreColor;  
                 document.getElementById('scoreCircle').style.stroke = scoreColor;  
@@ -446,10 +446,10 @@
                 radarChart = new Chart(ctx, {  
                     type: 'radar',  
                     data: {  
-                        labels: ['Cash Flow', 'Debt', 'Emergency', 'Protection', 'Retirement', 'Asset', 'Goals'],  
+                        labels: ['Arus Kas', 'Dana Darurat', 'Utang', 'Proteksi Jiwa', 'Proteksi Kesehatan', 'Sakit Kritis', 'Pensiun', 'Pendidikan', 'Aset', 'Goals'],  
                         datasets: [{  
                             label: 'Score',  
-                            data: [scoreCashflow, scoreDebt, scoreEmergency, scoreProtection, scoreRetirement, scoreAsset, scoreGoals],  
+                            data: [scoreCashflow, scoreEmergency, scoreDebt, scoreProtection, scoreHealth, scoreKritis, scoreRetirement, scoreEdu, scoreAsset, scoreGoals],  
                             backgroundColor: 'rgba(212, 175, 55, 0.2)',  
                             borderColor: 'rgba(212, 175, 55, 1)',  
                             pointBackgroundColor: 'rgba(11, 17, 32, 1)',  
@@ -533,10 +533,10 @@
                     nama, wa, kota, pekerjaan, dob, status: statusNikah, anak: jumlahAnak, bpjs, jiwaKantorN, finGoals, goalTargets, usiaSekarang, usiaPensiun, harapanHidup, incomeRange: incomeRangeSel, incomeReplacementYears, finalExpense, cicilanBulanan, retSources: { bpjs: document.getElementById('srcBpjs')?.checked ? numVal('srcBpjsNilai') : 0, dplk: document.getElementById('srcDplk')?.checked ? numVal('srcDplkNilai') : 0, perusahaan: document.getElementById('srcPerusahaan')?.checked ? numVal('srcPerusahaanNilai') : 0 }, totalIncome, expense, asetLikuid, asetInvestasi, asetNonLikuid, totalWealth,   
                     totalUtang, upJiwa, limitHealth, kritisFHC, ciGap, danaPendidikan, incomeReplacementYears, finalExpense, usiaPensiun, harapanHidup, retMode: getRetMode(), retMonthlyTarget, retLumpTarget, existingRetSources, retContribution,  
                     insuranceProtection, liquidResources, totalNeed, protectionGap, gapFV, totalGapModerat, retirementGapToday, ciGap, goalsNote,
-                    overallScore, priorities, scoreCashflow, scoreDebt, scoreEmergency, scoreProtection, scoreRetirement, scoreAsset, scoreGoals, scoreKritis,
+                    overallScore, priorities, scoreCashflow, scoreDebt, scoreEmergency, scoreProtection, scoreHealth, scoreKritis, scoreRetirement, scoreEdu, scoreAsset, scoreGoals,
                     incomeReplaceNeed, debtSettleNeed, eduNeed, finalExpenseNeed, ciReserveEstimate, ciProtection,
                     retYearsScenario, needFV, assetFV, scenarios, projectedAssets, existingRetSources, savingRate, debtRatio, diagSummary,
-                    fhcSnapshot: { overallScore, scores:{cashflow:scoreCashflow,debt:scoreDebt,emergency:scoreEmergency,protection:scoreProtection,retirement:scoreRetirement,asset:scoreAsset,goals:scoreGoals,criticalIllness:scoreKritis},
+                    fhcSnapshot: { overallScore, scores:{cashflow:scoreCashflow,debt:scoreDebt,emergency:scoreEmergency,protection:scoreProtection,health:scoreHealth,criticalIllness:scoreKritis,retirement:scoreRetirement,education:scoreEdu,asset:scoreAsset,goals:scoreGoals},
                         protection:{incomeReplacementNeed:incomeReplaceNeed,debtSettlementNeed:debtSettleNeed,educationNeed:eduNeed,finalExpenseNeed:finalExpenseNeed,totalNeed,currentProtection:insuranceProtection,liquidResources,protectionGap},
                         criticalIllness:{reserveEstimate:ciReserveEstimate,currentProtection:ciProtection,gap:ciGap},
                         retirement:{mode:getRetMode(),targetMonthly:retMonthlyTarget,targetLump:retLumpTarget,retirementAge:usiaPensiun,yearsToRetirement,projectedAssets,existingSources:existingRetSources,contribution:retContribution,scenarios,needFV,assetFV,gapFV,gapModerate:gapFV.moderat},
@@ -738,6 +738,36 @@ function downloadFHCShareCard(){
 <link rel="stylesheet" href="./css/style-16.css">
 </head><body><header><div><h1>Financial Health Report™</h1><div>Safe Future Financial Protection &amp; Wealth Advisory</div></div><img src="${logo}" alt="Safe Future"></header><p><b>Responden:</b> ${esc(d.nama)} &nbsp; <b>WhatsApp:</b> ${esc(d.wa)}</p><h2>Financial Health Score</h2><div class="score">${esc(d.overallScore)} / 100</div><div class="grid"><div class="box"><strong>Usia</strong><b>${esc(d.usiaSekarang)}</b></div><div class="box"><strong>Status</strong><b>${esc(d.status)}</b></div><div class="box"><strong>Protection Need</strong><b>${money(d.totalNeed)}</b></div><div class="box"><strong>Life Protection Gap</strong><b>${money(d.protectionGap)}</b></div><div class="box"><strong>Critical Illness Gap</strong><b>${money(d.ciGap)}</b></div><div class="box"><strong>Retirement Gap</strong><b>${money(d.retirementGapToday)}</b></div></div><h2>Financial Health Score — 7 Dimensi</h2><table><thead><tr><th>Dimensi</th><th>Score</th></tr></thead><tbody>${scoreRows}</tbody></table><h2>Tujuan Finansial &amp; Target</h2><table><thead><tr><th>Tujuan</th><th>Target</th></tr></thead><tbody>${goals||'<tr><td colspan="2">Tidak ada.</td></tr>'}</tbody></table><h2>Protection &amp; Retirement Planning</h2><table><tbody><tr><td>Total Protection Need</td><td>${money(d.totalNeed)}</td></tr><tr><td>Proteksi yang Dimiliki</td><td>${money(d.insuranceProtection)}</td></tr><tr><td>Life Protection Gap</td><td>${money(d.protectionGap)}</td></tr><tr><td>Critical Illness Reserve</td><td>${money(d.ciReserveEstimate)}</td></tr><tr><td>Critical Illness Gap</td><td>${money(d.ciGap)}</td></tr><tr><td>Retirement Funding Gap</td><td>${money(d.retirementGapToday)}</td></tr></tbody></table><h2>Diagnosis &amp; Rekomendasi Strategi</h2>${priorities||'<p>Belum tersedia.</p>'}<h2>Seluruh Data yang Diinput</h2><table><thead><tr><th>Field</th><th>Nilai</th></tr></thead><tbody>${inputRows}</tbody></table><div class="footer">Informasi bersifat edukatif dan merupakan estimasi berdasarkan data yang diinput. Bukan pengganti konsultasi dengan advisor berizin. Untuk pembahasan lebih lanjut, silakan konsultasikan hasil ini dengan advisor Safe Future.</div><script>setTimeout(()=>window.print(),500);<\/script>
 </body></html>`); w.document.close();
+        }
+
+        async function generateAiSummary() {
+            const btn = document.querySelector('button[onclick="generateAiSummary()"]');
+            const container = document.getElementById('aiSummaryContainer');
+            const content = document.getElementById('aiSummaryContent');
+            
+            if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menganalisis...';
+            container.classList.remove('hidden');
+            content.innerHTML = '<p class="text-slate-500 italic">Chi sedang menyusun Executive Summary berdasarkan data finansial Anda...</p>';
+            
+            try {
+                const response = await fetch('/api/generate-ai-report', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reportData: window.fhcDataSnapshot || {},
+                        type: 'Financial Health Check'
+                    })
+                });
+                
+                if (!response.ok) throw new Error('API Error ' + response.status);
+                const data = await response.json();
+                content.innerHTML = data.answer || 'Gagal menghasilkan summary.';
+            } catch (err) {
+                console.error(err);
+                content.innerHTML = '<p class="text-red-500">Maaf, terjadi kesalahan saat menghubungi AI. Silakan coba lagi nanti.</p>';
+            } finally {
+                if(btn) btn.innerHTML = '<i class="fas fa-magic mr-2"></i> Buat Executive Summary (AI)';
+            }
         }
 
         function restartFHC() {  
@@ -2448,4 +2478,3 @@ function closeProductModal() {
             updateWPRUI();
         }
 
-    

@@ -216,7 +216,7 @@
         // ============ REAL AI BRIDGE — Safe Future → Supabase Edge Function → Gemini ============
         let sfAiClient = null;
         let sfAiSessionPromise = null;
-        const SF_AI_ENDPOINT = (window.SUPABASE_URL || 'https://iymwjyptfkvjqxeeayhj.supabase.co') + '/functions/v1/safe-future-ai-public';
+        const SF_AI_ENDPOINT = '/api/chat';
 
         function sfGetAiClient() {
             if (sfAiClient) return sfAiClient;
@@ -412,7 +412,7 @@ Kesesuaian tetap perlu dilihat dari kondisi, perlindungan yang sudah dimiliki, t
                         company: {name:'Safe Future',founder:'Yusuf Bramantika Situmorang',positioning:'Financial Protection & Wealth Advisory',tagline:'Safe Today. Secure Future.',principle:'Diagnosis Sebelum Rekomendasi (Diagnosis Before Recommendation)'},
                         services: ['Financial Health Check™','Wealth & Protection Review','Private Advisory','Financial Protection Planning','Health Protection Planning','Critical Illness Planning','Income Protection Planning','Retirement Planning','Education Planning','Estate & Legacy Planning','Business Protection Planning'],
                         methodology: {name:'SAFE FUTURE METHOD™',steps:['DISCOVER','DIAGNOSE','DESIGN','RECOMMEND','REVIEW']},
-                        fhc:{name:'Financial Health Check™',purpose:'diagnosis kesehatan finansial awal',dimensions:['Cash Flow','Debt','Emergency','Protection','Retirement','Asset','Goals']},
+                        fhc:{name:'Financial Health Check™',purpose:'diagnosis kesehatan finansial awal',dimensions:['Arus Kas', 'Dana Darurat', 'Manajemen Utang', 'Proteksi Jiwa', 'Proteksi Kesehatan', 'Sakit Kritis', 'Dana Pensiun', 'Dana Pendidikan', 'Aset & Investasi', 'Tujuan Finansial']},
                         wpr:{name:'Wealth & Protection Review',purpose:'review kekayaan dan proteksi yang lebih mendalam',areas:['Net Worth','Liquidity Coverage','Life Protection','Retirement','Estate & Succession (Preliminary)']},
                         relevant_knowledge: scoredKb,
                         product_catalog: compactProducts.slice(0,40)
@@ -422,26 +422,9 @@ Kesesuaian tetap perlu dilihat dari kondisi, perlindungan yang sudah dimiliki, t
                 response_preferences: {language:'Bahasa Indonesia',style:'natural, intelligent, warm, concise, direct, structured like a high-quality financial AI consultant',web_grounding:'Gunakan Google Search jika perlu informasi terbaru atau verifikasi sumber primer; prioritaskan Manulife Indonesia/OJK/pemerintah.',service_first:'Safe Future services are the primary next step. If a user expresses a personal need for insurance, protection, or asks what insurance they need, do not collect personal data in chat and do not jump to a product. Direct them first to Financial Health Check™ for diagnosis, then explain the result in Tanya AI.',avoid:['hallucination','overclaiming','repetitive disclaimers','sales pressure','unsupported product facts','asking for personal financial details in chat when FHC is the appropriate next step'],unknown_policy:'Jika informasi tidak tersedia dalam konteks Safe Future, katakan jujur bahwa informasinya belum tersedia dan arahkan ke advisor Safe Future.',writing_rules:'Tulis seperti konsultan manusia yang sangat rapi: inti jawaban di kalimat pertama; paragraf pendek 1–3 kalimat; gunakan bullet • bila membantu; jangan gunakan tabel kecuali benar-benar diperlukan; jangan gunakan Markdown heading atau format mentah; jangan mengulang pertanyaan; jangan meminta data pribadi untuk menentukan kebutuhan asuransi bila FHC dapat digunakan; prioritaskan layanan Safe Future; selalu selesaikan kalimat dan struktur jawaban.'}
             };
             let response=null,data=null,lastError=null;
-            // Prefer Supabase's native Functions client. This avoids browser CORS/network quirks that can surface as "Failed to send a request".
             for(let attempt=0;attempt<2;attempt++){
                 try{
-                    if(window.supabaseClient?.functions?.invoke){
-                        const inv=await window.supabaseClient.functions.invoke('safe-future-ai',{body:requestBody});
-                        if(!inv.error&&inv.data?.answer){data=inv.data;response={ok:true};break;}
-                        lastError=inv.error||new Error('AI service error');
-                    } else {
-                        response=await fetch(SF_AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(window.SUPABASE_KEY||''),'apikey':window.SUPABASE_KEY},body:JSON.stringify(requestBody)});
-                        data=await response.json().catch(()=>({}));
-                        if(response.ok&&data?.answer) break;
-                        lastError=new Error(data?.error||'AI service error');
-                    }
-                }catch(e){lastError=e;}
-                if(attempt===0) await new Promise(r=>setTimeout(r,450));
-            }
-            // Last-resort direct request if the Functions client failed.
-            if(!response?.ok||!data?.answer){
-                try{
-                    response=await fetch(SF_AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+(window.SUPABASE_KEY||''),'apikey':window.SUPABASE_KEY},body:JSON.stringify(requestBody)});
+                    response=await fetch(SF_AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(requestBody)});
                     data=await response.json().catch(()=>({}));
                 }catch(e){lastError=e;}
             }

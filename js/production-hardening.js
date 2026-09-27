@@ -49,11 +49,11 @@
   function renderHistory(){
     const fhc=state.fhc,wpr=state.wpr;
     const a=document.getElementById('sf4FhcHistory'),b=document.getElementById('sf4WprHistory');
-    if(a)a.innerHTML=fhc.length?fhc.map((r,i)=>historyRow('FHC',r,i)).join(''):'<div class="sf4-empty">Belum ada FHC tersimpan.</div>';
-    if(b)b.innerHTML=wpr.length?wpr.map((r,i)=>historyRow('WPR',r,i)).join(''):'<div class="sf4-empty">Belum ada WPR tersimpan. Jika Anda baru menyelesaikannya, muat ulang setelah login.</div>';
+    if(a){const h=fhc.length?fhc.map((r,i)=>historyRow('FHC',r,i)).join(''):'<div class="sf4-empty">Belum ada FHC tersimpan.</div>';if(a.innerHTML!==h)a.innerHTML=h;}
+    if(b){const h=wpr.length?wpr.map((r,i)=>historyRow('WPR',r,i)).join(''):'<div class="sf4-empty">Belum ada WPR tersimpan. Jika Anda baru menyelesaikannya, muat ulang setelah login.</div>';if(b.innerHTML!==h)b.innerHTML=h;}
     const p3a=document.getElementById('sfP3FhcHistory'),p3b=document.getElementById('sfP3WprHistory');
-    if(p3a)p3a.innerHTML=fhc.length?fhc.map((r,i)=>historyRow('FHC',r,i)).join(''):'<div class="sf-p3-empty">Belum ada hasil FHC tersimpan di akun ini.</div>';
-    if(p3b)p3b.innerHTML=wpr.length?wpr.map((r,i)=>historyRow('WPR',r,i)).join(''):'<div class="sf-p3-empty">Belum ada hasil WPR tersimpan di akun ini.</div>';
+    if(p3a){const h=fhc.length?fhc.map((r,i)=>historyRow('FHC',r,i)).join(''):'<div class="sf-p3-empty">Belum ada hasil FHC tersimpan di akun ini.</div>';if(p3a.innerHTML!==h)p3a.innerHTML=h;}
+    if(p3b){const h=wpr.length?wpr.map((r,i)=>historyRow('WPR',r,i)).join(''):'<div class="sf-p3-empty">Belum ada hasil WPR tersimpan di akun ini.</div>';if(p3b.innerHTML!==h)p3b.innerHTML=h;}
   }
 
   function reportSource(r){
@@ -72,7 +72,7 @@
         '<button type="button" '+(!src?'disabled':'')+' onclick="window.sfProductionDownloadReport(\''+rid+'\')">Download PDF</button>'+
         '</div></div>';
     }).join(''):'<div class="sf4-empty">Belum ada laporan tersimpan.</div>';
-    ['sf4Reports','sfDashReports'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=html});
+    ['sf4Reports','sfDashReports'].forEach(id=>{const el=document.getElementById(id);if(el)if(el.innerHTML!==html)el.innerHTML=html});
   }
 
   function modal(title,body,actions){
@@ -161,7 +161,12 @@
   document.addEventListener('DOMContentLoaded',()=>setTimeout(boot,1200));
   const wait=setInterval(async()=>{if(window.supabaseClient){clearInterval(wait);await boot()}},500);
   window.addEventListener('sf:dashboard-opened',()=>boot());
+<<<<<<< HEAD
   // Avoid observing the whole body: renderHistory/renderReports update innerHTML,
   // which would recursively trigger this observer and freeze the public site.
   setTimeout(()=>{if(document.getElementById('sf4Reports')||document.getElementById('sf4FhcHistory')){renderHistory();renderReports()}},2500);
+=======
+  let debounce=null;const observer=new MutationObserver(()=>{clearTimeout(debounce);debounce=setTimeout(()=>{if(document.getElementById('sf4Reports')||document.getElementById('sf4FhcHistory')){renderHistory();renderReports()}},100)});
+  observer.observe(document.body,{childList:true,subtree:true});
+>>>>>>> origin/main
 })();
