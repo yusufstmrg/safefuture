@@ -286,23 +286,23 @@
                 </div>
 
                 <!-- Level 2: Wealth & Protection Review -->
-                <div class="premium-card bg-navy rounded-2xl p-8 text-white shadow-[0_25px_60px_rgba(11,17,32,0.35)] hover:shadow-[0_30px_70px_rgba(11,17,32,0.45)] transition-all duration-300 flex flex-col relative overflow-hidden">
-                    <div class="absolute top-0 inset-x-8 h-[3px] bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+                <div class="premium-card bg-gold-gradient text-navy border border-gold-shiny/50 rounded-2xl p-8 text-white shadow-[0_25px_60px_rgba(11,17,32,0.35)] hover:shadow-[0_30px_70px_rgba(11,17,32,0.45)] transition-all duration-300 flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 inset-x-8 h-[3px] bg-gradient-to-r from-transparent via-white to-transparent"></div>
                     <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 50% at 100% 0%, rgba(201,162,39,0.12) 0%, rgba(201,162,39,0) 60%);"></div>
                     <div class="relative">
-                        <div class="w-14 h-14 rounded-xl bg-gold-gradient flex items-center justify-center mb-6">
-                            <i class="fas fa-vault text-2xl text-navy"></i>
+                        <div class="w-14 h-14 rounded-xl bg-navy flex items-center justify-center mb-6">
+                            <i class="fas fa-vault text-2xl text-gold-shiny"></i>
                         </div>
-                        <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-gold-shiny mb-2">Level 2 &middot; Premium</span>
-                        <h3 class="font-serif text-xl font-bold text-white mb-3">Wealth & Protection Review</h3>
-                        <p class="text-xs text-slate-400 mb-4 font-semibold uppercase tracking-wider">Untuk Affluent &middot; Business Owners &middot; Eksekutif</p>
-                        <ul class="space-y-3 text-sm text-slate-300 mb-8 flex-1">
-                            <li class="flex items-start"><i class="fas fa-circle-check text-gold-shiny mt-0.5 mr-3"></i> Review kekayaan, aset & net worth</li>
-                            <li class="flex items-start"><i class="fas fa-circle-check text-gold-shiny mt-0.5 mr-3"></i> Alokasi aset & risiko konsentrasi</li>
-                            <li class="flex items-start"><i class="fas fa-circle-check text-gold-shiny mt-0.5 mr-3"></i> Proteksi, kewajiban & keberlangsungan bisnis</li>
-                            <li class="flex items-start"><i class="fas fa-circle-check text-gold-shiny mt-0.5 mr-3"></i> Pensiun, estate & legacy planning</li>
+                        <span class="text-[10px] font-bold tracking-[0.2em] uppercase text-navy-light mb-2">Level 2 &middot; Premium</span>
+                        <h3 class="font-serif text-xl font-bold text-navy mb-3">Wealth & Protection Review</h3>
+                        <p class="text-xs text-navy/70 mb-4 font-semibold uppercase tracking-wider">Untuk Affluent &middot; Business Owners &middot; Eksekutif</p>
+                        <ul class="space-y-3 text-sm text-navy mb-8 font-medium flex-1">
+                            <li class="flex items-start"><i class="fas fa-circle-check text-navy mt-0.5 mr-3"></i> Review kekayaan, aset & net worth</li>
+                            <li class="flex items-start"><i class="fas fa-circle-check text-navy mt-0.5 mr-3"></i> Alokasi aset & risiko konsentrasi</li>
+                            <li class="flex items-start"><i class="fas fa-circle-check text-navy mt-0.5 mr-3"></i> Proteksi, kewajiban & keberlangsungan bisnis</li>
+                            <li class="flex items-start"><i class="fas fa-circle-check text-navy mt-0.5 mr-3"></i> Pensiun, estate & legacy planning</li>
                         </ul>
-                        <button onclick="openWealthReview()" class="w-full bg-gold-gradient text-navy py-3 rounded-md font-semibold hover:opacity-90 transition">Mulai Review <i class="fas fa-arrow-right ml-2"></i></button>
+                        <button onclick="openWealthReview()" class="w-full bg-navy text-white py-3 rounded-md font-semibold hover:opacity-90 transition">Mulai Review <i class="fas fa-arrow-right ml-2"></i></button>
                     </div>
                 </div>
 
@@ -326,31 +326,7 @@
                 </div>
             </div>
 
-            <!-- 2 CTA cards side-by-side -->
-            <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mt-16 fade-in">
-                <div class="bg-cream border border-slate-100 rounded-2xl p-8 flex flex-col md:flex-row items-start md:items-center gap-6 premium-card">
-                    <div class="w-16 h-16 shrink-0 rounded-2xl bg-white border border-gold-shiny/30 flex items-center justify-center shadow-sm">
-                        <i class="fas fa-users text-2xl text-gold-shiny"></i>
                     </div>
-                    <div class="flex-1">
-                        <h4 class="font-serif font-bold text-navy text-lg mb-1">Untuk Anda & Keluarga</h4>
-                        <p class="text-sm text-slate-500 mb-3">Mulai dari diagnosa cepat kondisi finansial keluarga Anda — gratis dan tanpa kewajiban.</p>
-                        <a href="#health-check" class="inline-flex items-center text-gold-dark font-semibold text-sm hover:text-navy transition">Mulai Financial Health Check <i class="fas fa-arrow-right ml-2"></i></a>
-                    </div>
-                </div>
-                <div class="bg-navy rounded-2xl p-8 flex flex-col md:flex-row items-start md:items-center gap-6 shadow-lg premium-card relative overflow-hidden">
-                    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60% 80% at 100% 0%, rgba(201,162,39,0.14) 0%, rgba(201,162,39,0) 60%);"></div>
-                    <div class="w-16 h-16 shrink-0 rounded-2xl bg-gold-gradient flex items-center justify-center shadow-md relative">
-                        <i class="fas fa-briefcase text-2xl text-navy"></i>
-                    </div>
-                    <div class="flex-1 relative">
-                        <h4 class="font-serif font-bold text-white text-lg mb-1">Untuk Wealth & Business Owners</h4>
-                        <p class="text-sm text-slate-300 mb-3">Review menyeluruh atas kekayaan, aset, dan perlindungan Anda bersama advisor kami.</p>
-                        <button onclick="openWealthReview()" class="inline-flex items-center text-gold-shiny font-semibold text-sm hover:text-white transition">Request Wealth & Protection Review <i class="fas fa-arrow-right ml-2"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- Section 2: Mengapa FHC Penting -->  
